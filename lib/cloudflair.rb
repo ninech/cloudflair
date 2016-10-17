@@ -29,6 +29,6 @@ module Cloudflair
   end
 
   setting :faraday do
-    setting :adapter
+    setting :adapter, :net_http
   end
 end
