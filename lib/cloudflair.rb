@@ -6,13 +6,14 @@ require 'dry-configurable'
 # <code>
 # require "cloudflair"
 # Cloudflair.configure do |config|
-#   config.auth.key = 'YOUR_API_KEY'
-#   config.auth.email = 'YOUR_ACCOUNT_EMAIL'
+#   config.cloudflare.auth.key = 'YOUR_API_KEY'
+#   config.cloudflare.auth.email = 'YOUR_ACCOUNT_EMAIL'
 #   # if you have a user_service_key, you don't need auth.key and auth.email
-#   config.auth.user_service_key = 'YOUR_USER_SERVICE_KEY'
+#   config.cloudflare.auth.user_service_key = 'YOUR_USER_SERVICE_KEY'
 #
 #   # these are optional:
-#   config.api_base_url = 'https://your_cloudflare_mock.local'
+#   config.cloudflare.api_base_url = 'https://your_cloudflare_mock.local'
+#   config.faraday.adapter = :your_preferred_faraday_adapter
 # end
 # </code>
 module Cloudflair
