@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
 require 'faraday'
+require 'faraday_middleware'
 require 'cloudflair'
 require 'cloudflair/zone'
 require 'cloudflair/zone/development_mode'

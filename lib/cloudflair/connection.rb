@@ -1,10 +1,11 @@
 class Connection
-  def self.new_connection
+  def self.new
     config = Cloudflair.config
 
     Faraday.new(url: config.cloudflare.api_base_url, headers: headers) do |faraday|
       faraday.request  :url_encoded
       faraday.response :logger
+      faraday.response :json, :content_type => /\bjson$/
 
       faraday.adapter config.faraday.adapter || Faraday.default_adapter
     end
