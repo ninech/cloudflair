@@ -13,46 +13,87 @@ module Cloudflair
       @dirty = {}
     end
 
-    def get!
-      @data = get_data
+    def revert
+      @dirty.clear
+    end
+
+    def reload
+      @data = get
+      revert
       self
     end
 
-    def method_missing name, *args, &block
-      # allow access to data that conflicts with pre-defined methods
-      # e.g. write 'zone._save' instead of 'zone.save' to access the datapoint called 'save'
-      name = name.to_s
+    def update(updated_fields)
+      checked_updated_fields = {}
+      updated_fields.each do |key, values|
+        s_key = key.to_s
+        return unless patchable_fields.include? s_key
+        checked_updated_fields[s_key] = values
+      end
+
+      @dirty.merge! checked_updated_fields
+      patch
+    end
+
+    def patch
+      @data = response connection.patch path, @dirty
+      revert
+      self
+    end
+
+    def method_missing name_as_symbol, *args, &block
+      # allow access to remote data that conflicts with pre-defined methods
+      # e.g. write 'zone._zone_id' instead of 'zone.zone_id' to access the remote value of 'zone_id'
+      name = name_as_symbol.to_s
       name = name[1..-1] if name.start_with?('_')
 
-      #return dirty[name] if @dirty.keys.include? name
+      if name.end_with?('=')
+        if patchable_fields.include?(name[0..-2])
+          @dirty[name[0..-2]] = args[0]
+          return
+        else
+          super(name_as_symbol, args, block)
+        end
+      end
+
+      # allow access to the original data using 'zone.name!' or 'zone._name!'
+      if name.end_with?('!') && data.keys.include?(name[0..-2])
+        return data[name[0..2]]
+      end
+
+      return @dirty[name] if @dirty.keys.include? name
       return data[name] if data.keys.include? name
 
-      # allow access to clean data as 'zone.name!' or 'zone._name!'
-      #if name.end_with?('!') && data.keys.include?(name[0..-2])
-      #  return data[name[0..2]]
-      #end
-
-      #if name.end_with? '=' && attr_writer?(name)
-      #  @dirty[name[0..-2]] = args[0]
-      #  return
-      #end
-
-      super(name, args, block)
+      super(name_as_symbol, args, block)
     end
+
+    alias_method :get!, :reload
+    alias_method :save, :patch
 
     private
 
-    def data
-      @data ||= get_data
+    def patchable_fields
+      %w(paused vanity_name_servers plan)
     end
 
-    def get_data
-      response = connection.get("/zones/#{zone_id}")
+    def data
+      @data ||= get
+    end
+
+    def get
+      response connection.get path
+    end
+
+    def response(response)
       body = response.body
 
       fail CloudflareError.new body['errors'] unless body['success']
 
       body['result']
+    end
+
+    def path
+      "/zones/#{zone_id}"
     end
 
     def connection
