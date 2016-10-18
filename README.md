@@ -1,5 +1,7 @@
 # Cloudflair
 
+![Travis-CI build status](https://api.travis-ci.org/ninech/cloudflair.svg)
+
 **UNDER CONSTRUCTION**
 
 A simple Ruby-wrapper around CloudFlare's v4 API.
