@@ -1,6 +1,6 @@
 # Cloudflair
 
-![Travis-CI build status](https://api.travis-ci.org/ninech/cloudflair.svg)
+[![Build Status](https://travis-ci.org/ninech/cloudflair.svg?branch=master)](https://travis-ci.org/ninech/cloudflair)
 
 **UNDER CONSTRUCTION**
 
