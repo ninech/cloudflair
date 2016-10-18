@@ -6,6 +6,7 @@ require 'cloudflair'
 require 'cloudflair/zone'
 require 'cloudflair/zone/development_mode'
 require 'cloudflair/connection'
+require 'cloudflair/error/cloudflare_error'
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
