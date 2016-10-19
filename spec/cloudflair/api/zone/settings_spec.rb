@@ -1,25 +1,16 @@
-require 'cloudflair'
+require 'spec_helper'
 
-describe Cloudflair do
+describe Cloudflair::Zone do
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
 
-  describe '#settings' do
-    before do
-      @zone = Cloudflair.zone zone_identifier
-    end
+  let(:subject) { Cloudflair.zone(zone_identifier).settings }
 
-    # it 'returns something' do
-    #   expect(@zone.settings).to_not be_nil
-    # end
+  it 'returns the correct zone_id' do
+    expect(subject.zone_id).to eq zone_identifier
+  end
 
-    describe '#development_mode' do
-      before do
-        @settings = @zone.settings
-      end
-
-      # it 'returns current setting' do
-      #   expect(@settings.development_mode).to_not be_nil
-      # end
-    end
+  it 'returns an initialized development_mode object' do
+    expect(subject.development_mode).to be_a Cloudflair::DevelopmentMode
+    expect(subject.development_mode.zone_id).to eq zone_identifier
   end
 end

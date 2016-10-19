@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Cloudflair::Zone do
-  let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
   let(:faraday) do
     Faraday.new do |faraday|
@@ -11,12 +10,15 @@ describe Cloudflair::Zone do
       faraday.response :json, :content_type => /\bjson$/
     end
   end
-  let(:zone_details_response_json) { File.read('spec/cloudflair/fixtures/zone/details.json') }
+
+  let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
+  let(:response_json) { File.read('spec/cloudflair/fixtures/zone/details.json') }
+  let(:url) { "/zones/#{zone_identifier}" }
   let(:subject) { Cloudflair.zone zone_identifier }
 
   before do
-    faraday_stubs.get('/zones/'+zone_identifier) do |_env|
-      [200, { content_type: 'application/json' }, zone_details_response_json,]
+    faraday_stubs.get(url) do |_env|
+      [200, { content_type: 'application/json' }, response_json,]
     end
     allow(Faraday).to receive(:new).and_return faraday
   end
@@ -28,6 +30,10 @@ describe Cloudflair::Zone do
 
   it 'knows the given zone id' do
     expect(subject.zone_id).to eq zone_identifier
+  end
+
+  it 'returns the settings object' do
+    expect(subject.settings).to be_a Cloudflair::Settings
   end
 
   describe 'fetch values' do
@@ -54,18 +60,14 @@ describe Cloudflair::Zone do
     end
 
     it 'returns the remaining development mode time' do
-      expect(subject._development_mode).to eq 7200
-    end
-
-    it 'returns the remaining development mode time' do
-      expect(subject.development_mode).to be_a Cloudflair::DevelopmentMode
+      expect(subject.development_mode).to eq 7200
     end
   end
 
   describe 'send values' do
     before do
-      faraday_stubs.patch('/zones/'+zone_identifier, { 'paused' => true }) do |_env|
-        [200, { content_type: 'application/json' }, zone_details_response_json,]
+      faraday_stubs.patch(url, { 'paused' => true }) do |_env|
+        [200, { content_type: 'application/json' }, response_json,]
       end
     end
 

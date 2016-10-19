@@ -9,7 +9,8 @@ require 'cloudflair/error/cloudflare_error'
 require 'cloudflair/error/cloudflair_error'
 require 'cloudflair'
 require 'cloudflair/api/zone'
-require 'cloudflair/api/zone/development_mode'
+require 'cloudflair/api/zone/settings'
+require 'cloudflair/api/zone/settings/development_mode'
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true

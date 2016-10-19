@@ -1,4 +1,4 @@
-require 'cloudflair/api/zone/development_mode'
+require 'cloudflair/api/zone/settings'
 require 'cloudflair/communication'
 
 module Cloudflair
@@ -17,8 +17,8 @@ module Cloudflair
       @zone_id = zone_id
     end
 
-    def development_mode
-      Cloudflair::DevelopmentMode.new zone_id
+    def settings
+      @settings ||= Cloudflair::Settings.new zone_id
     end
 
     private
