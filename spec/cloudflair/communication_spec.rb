@@ -6,6 +6,8 @@ describe Cloudflair::Communication do
 
     attr_accessor :name
 
+    patchable_fields :name
+
     def initialize(name='Urs')
       @name = name
     end
@@ -14,10 +16,6 @@ describe Cloudflair::Communication do
 
     def test_id
       42
-    end
-
-    def patchable_fields
-      %w(name)
     end
 
     def path
@@ -106,6 +104,10 @@ describe Cloudflair::Communication do
       faraday_stubs.patch('/tests/42', { 'name' => 'Fritz' }) do |_env|
         [200, { content_type: 'application/json' }, response_json,]
       end
+    end
+
+    it 'raises a NoMethodError when the field is not modifiable' do
+      expect { subject.nope = false }.to raise_error NoMethodError
     end
 
     it 'returns the value that has been set' do

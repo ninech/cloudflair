@@ -3,6 +3,24 @@ require 'cloudflair/error/cloudflair_error'
 
 module Cloudflair
   module Communication
+    def Communication.included(other_klass)
+      other_klass.extend ClassMethods
+    end
+
+    module ClassMethods
+      def patchable_fields(*fields)
+        return @patchable_fields if @patchable_fields
+
+        return if fields.nil?
+
+        if fields.is_a?(Array)
+          @patchable_fields = fields.map(&:to_s)
+        else
+          @patchable_fields = [fields.to_s]
+        end
+      end
+    end
+
     def revert
       dirty.clear
     end
@@ -93,6 +111,10 @@ module Cloudflair
 
     def connection
       Connection.new
+    end
+
+    def patchable_fields
+      self.class.patchable_fields
     end
   end
 end

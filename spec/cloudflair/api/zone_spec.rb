@@ -54,7 +54,11 @@ describe Cloudflair::Zone do
     end
 
     it 'returns the remaining development mode time' do
-      expect(subject.development_mode).to eq 7200
+      expect(subject._development_mode).to eq 7200
+    end
+
+    it 'returns the remaining development mode time' do
+      expect(subject.development_mode).to be_a Cloudflair::DevelopmentMode
     end
   end
 

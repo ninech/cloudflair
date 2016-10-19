@@ -11,15 +11,17 @@ module Cloudflair
 
     attr_reader :zone_id
 
+    patchable_fields :paused, :vanity_name_servers, :plan
+
     def initialize(zone_id)
       @zone_id = zone_id
     end
 
-    private
-
-    def patchable_fields
-      %w(paused vanity_name_servers plan)
+    def development_mode
+      Cloudflair::DevelopmentMode.new zone_id
     end
+
+    private
 
     def path
       "/zones/#{zone_id}"
