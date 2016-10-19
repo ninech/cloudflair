@@ -11,9 +11,9 @@ module Cloudflair
       def patchable_fields(*fields)
         return @patchable_fields if @patchable_fields
 
-        return if fields.nil?
-
-        if fields.is_a?(Array)
+        if fields.nil?
+          @patchable_fields = []
+        elsif fields.is_a?(Array)
           @patchable_fields = fields.map(&:to_s)
         else
           @patchable_fields = [fields.to_s]
@@ -32,6 +32,8 @@ module Cloudflair
     end
 
     def patch
+      return self if dirty.empty?
+
       @data = response connection.patch path, dirty
       revert
       self
@@ -42,8 +44,7 @@ module Cloudflair
       updated_fields.each do |key, values|
         s_key = normalize_accessor key
 
-        return unless patchable_fields.include? s_key
-        checked_updated_fields[s_key] = values
+        checked_updated_fields[s_key] = values if patchable_fields.include? s_key
       end
 
       dirty.merge! checked_updated_fields

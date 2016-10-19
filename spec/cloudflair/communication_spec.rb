@@ -54,6 +54,13 @@ describe Cloudflair::Communication do
   end
 
   describe 'fetch values' do
+    it 'caches the data' do
+      expect(faraday).to receive(:get).once.and_call_original
+
+      expect(subject._name).to eq 'Beat'
+      expect(subject._name).to eq 'Beat'
+    end
+
     it 'fetches the data when asked to' do
       expect(faraday).to receive(:get).twice.and_call_original
       subject.reload
@@ -129,7 +136,7 @@ describe Cloudflair::Communication do
       expect(subject._name).to eq 'Beat'
     end
 
-    it 'updates the value and sets PATCH to the server' do
+    it 'updates the value and sends PATCH to the server' do
       expect(faraday).to receive(:patch).and_call_original
 
       expect(subject.update(name: 'Fritz')).to be subject
@@ -138,6 +145,52 @@ describe Cloudflair::Communication do
       # this value is read from the response, which is 'Beat', and not 'Fritz'
       # this also checks implicitly that the @dirty cache has been emptied
       expect(subject._name).to eq 'Beat'
+    end
+
+    it 'updates only allowed values and sends PATCH to the server' do
+      expect(faraday).to receive(:patch).and_call_original
+
+      expect(subject.update(name: 'Fritz', illegal: 'It Is')).to be subject
+    end
+
+    it 'does not send PATCH to the server when nothing changed' do
+      expect(faraday).to_not receive(:patch)
+
+      expect(subject.patch).to be subject
+    end
+
+    it 'does not send PATCH to the server when nothing valid changed' do
+      expect(faraday).to_not receive(:patch)
+
+      expect(subject.update(illegal: 'It Is')).to be subject
+    end
+  end
+
+  context 'api class has no patchable_fields' do
+    class TestEntity2
+      include Cloudflair::Communication
+
+      def path
+        '/tests/42'
+      end
+    end
+
+    let(:subject) { TestEntity2.new }
+
+    it 'still runs a fetch' do
+      expect(faraday).to receive(:get).once.and_call_original
+
+      expect(subject.name).to eq 'Beat'
+    end
+
+    it 'does not send PATCH' do
+      expect(faraday).to_not receive(:patch)
+
+      expect(subject.update name: 'Fritz').to be subject
+    end
+
+    it 'does not allow setting any value' do
+      expect { subject.name='Mars' }.to raise_error NoMethodError
     end
   end
 end
