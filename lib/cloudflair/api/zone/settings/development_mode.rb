@@ -1,3 +1,5 @@
+require 'cloudflair/communication'
+
 module Cloudflair
   class DevelopmentMode
     include Cloudflair::Communication

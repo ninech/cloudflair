@@ -1,3 +1,6 @@
+require 'cloudflair/api/zone'
+require 'cloudflair/communication'
+require 'cloudflair/connection'
 require 'cloudflair/version'
 require 'dry-configurable'
 

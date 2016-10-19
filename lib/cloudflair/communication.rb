@@ -1,5 +1,6 @@
 require 'cloudflair/error/cloudflare_error'
 require 'cloudflair/error/cloudflair_error'
+require 'cloudflair/connection'
 
 module Cloudflair
   module Communication
