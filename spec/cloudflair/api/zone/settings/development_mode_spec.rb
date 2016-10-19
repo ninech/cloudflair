@@ -6,7 +6,6 @@ describe Cloudflair::DevelopmentMode do
     Faraday.new do |faraday|
       faraday.adapter :test, faraday_stubs
       faraday.request :url_encoded
-      faraday.response :logger
       faraday.response :json, :content_type => /\bjson$/
     end
   end
