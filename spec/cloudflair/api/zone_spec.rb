@@ -12,14 +12,13 @@ describe Cloudflair::Zone do
     end
   end
   let(:zone_details_response_json) { File.read('spec/cloudflair/fixtures/zone/details.json') }
+  let(:subject) { Cloudflair.zone zone_identifier }
 
   before do
     faraday_stubs.get('/zones/'+zone_identifier) do |_env|
       [200, { content_type: 'application/json' }, zone_details_response_json,]
     end
     allow(Faraday).to receive(:new).and_return faraday
-
-    @zone = Cloudflair.zone zone_identifier
   end
 
   it 'returns a zone object' do
@@ -35,28 +34,28 @@ describe Cloudflair::Zone do
   describe 'fetch values' do
     it 'fetches the data when aked to' do
       expect(faraday).to receive(:get).twice.and_call_original
-      @zone.reload
-      @zone.reload
+      subject.reload
+      subject.reload
     end
 
     it 'returns itself when get!ing' do
-      expect(@zone.reload).to be @zone
+      expect(subject.reload).to be subject
     end
 
     it 'returns the correct name' do
-      expect(@zone.name).to eq 'example.com'
+      expect(subject.name).to eq 'example.com'
     end
 
     it 'returns the correct name' do
-      expect(@zone._name).to eq 'example.com'
+      expect(subject._name).to eq 'example.com'
     end
 
     it 'returns the correct paused status' do
-      expect(@zone.paused).to be false
+      expect(subject.paused).to be false
     end
 
     it 'returns the remaining development mode time' do
-      expect(@zone.development_mode).to eq 7200
+      expect(subject.development_mode).to eq 7200
     end
   end
 
@@ -68,25 +67,25 @@ describe Cloudflair::Zone do
     end
 
     it 'returns the value set' do
-      @zone.paused = true
-      expect(@zone.paused).to be true
+      subject.paused = true
+      expect(subject.paused).to be true
     end
 
     it 'returns the value set' do
       expect(faraday).to receive(:patch).and_call_original
 
-      @zone.paused = true
-      expect(@zone.patch).to be @zone
+      subject.paused = true
+      expect(subject.patch).to be subject
       # false, because the response is loaded from the server!
-      # this is a good check, if the @dirty hash is cleaned
-      expect(@zone.paused).to be false
+      # this is a good way to check if the @dirty hash is cleaned
+      expect(subject.paused).to be false
     end
 
     it 'returns the value set' do
       expect(faraday).to receive(:patch).and_call_original
 
-      expect(@zone.update(paused: true)).to be @zone
-      expect(@zone.paused).to be false
+      expect(subject.update(paused: true)).to be subject
+      expect(subject.paused).to be false
     end
   end
 end
