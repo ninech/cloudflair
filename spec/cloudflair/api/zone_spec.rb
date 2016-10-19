@@ -22,17 +22,16 @@ describe Cloudflair::Zone do
   end
 
   it 'returns a zone object' do
-    expect(Cloudflair.zone zone_identifier).to_not be_nil
+    expect(subject).to_not be_nil
+    expect(subject).to be_a Cloudflair::Zone
   end
 
   it 'knows the given zone id' do
-    zone = Cloudflair.zone zone_identifier
-
-    expect(zone.zone_id).to eq zone_identifier
+    expect(subject.zone_id).to eq zone_identifier
   end
 
   describe 'fetch values' do
-    it 'fetches the data when aked to' do
+    it 'fetches the data when asked to' do
       expect(faraday).to receive(:get).twice.and_call_original
       subject.reload
       subject.reload
@@ -66,12 +65,12 @@ describe Cloudflair::Zone do
       end
     end
 
-    it 'returns the value set' do
+    it 'returns the value that has been set' do
       subject.paused = true
       expect(subject.paused).to be true
     end
 
-    it 'returns the value set' do
+    it 'sends PATCH to the server' do
       expect(faraday).to receive(:patch).and_call_original
 
       subject.paused = true
@@ -81,7 +80,7 @@ describe Cloudflair::Zone do
       expect(subject.paused).to be false
     end
 
-    it 'returns the value set' do
+    it 'updates the value and sets PATCH to the server' do
       expect(faraday).to receive(:patch).and_call_original
 
       expect(subject.update(paused: true)).to be subject
