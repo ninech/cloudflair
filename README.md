@@ -1,6 +1,7 @@
 # Cloudflair
 
 [![Build Status](https://travis-ci.org/ninech/cloudflair.svg?branch=master)](https://travis-ci.org/ninech/cloudflair)
+[![Gem Version](https://badge.fury.io/rb/cloudflair.svg)](https://badge.fury.io/rb/cloudflair)
 
 **UNDER CONSTRUCTION**
 
@@ -26,8 +27,13 @@ Or install it yourself as:
 
 ## Usage
 
+### Configuration
+
+Put this somewhere, where it runs, before any call to anything else of Cloudflair.
+If you are using Rails, then this would probably be somewhere beneath `/config`.
+
 ```ruby
-require "cloudflair"
+require 'cloudflair'
 Cloudflair.configure do |config|
   config.cloudflare.auth.key = 'YOUR_API_KEY'
   config.cloudflare.auth.email = 'YOUR_ACCOUNT_EMAIL'
@@ -40,9 +46,26 @@ Cloudflair.configure do |config|
 end
 ```
 
-TODO: Write usage instructions here
+### Call An API Endpoint
 
-Along the lines of `Cloudflair.new_connection.zone('zone_id').some_action`
+This gem is organized along the URL schema of cloudflair.
+
+```ruby
+require 'cloudflair'
+
+# https://api.cloudflare.com/client/v4/zones/cd7d068de3012345da9420df9514dad0
+Cloudflair.zone('023e105f4ecef8ad9ca31a8372d0c353').name
+# :=> "blog.example.com"
+
+# https://api.cloudflare.com/client/v4/zones/cd7d068de3012345da9420df9514dad0/settings/development_mode
+Cloudflair.zone('023e105f4ecef8ad9ca31a8372d0c353').settings.development_mode.value
+# :=> "on"
+# :=> "off"
+```
+
+You can use any field that Cloudflare's API returns. If a field is covered by some internal field, use `_field`. 
+
+A good reference are also the specs.
 
 ## Development
 
