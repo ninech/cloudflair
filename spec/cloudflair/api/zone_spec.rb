@@ -6,7 +6,7 @@ describe Cloudflair::Zone do
     Faraday.new do |faraday|
       faraday.adapter :test, faraday_stubs
       faraday.request :url_encoded
-      faraday.response :json, :content_type => /\bjson$/
+      faraday.response :json, content_type: /\bjson$/
     end
   end
 
@@ -17,7 +17,7 @@ describe Cloudflair::Zone do
 
   before do
     faraday_stubs.get(url) do |_env|
-      [200, { content_type: 'application/json' }, response_json,]
+      [200, { content_type: 'application/json' }, response_json]
     end
     allow(Faraday).to receive(:new).and_return faraday
   end
@@ -65,8 +65,8 @@ describe Cloudflair::Zone do
 
   describe 'send values' do
     before do
-      faraday_stubs.patch(url, { 'paused' => true }) do |_env|
-        [200, { content_type: 'application/json' }, response_json,]
+      faraday_stubs.patch(url, 'paused' => true) do |_env|
+        [200, { content_type: 'application/json' }, response_json]
       end
     end
 

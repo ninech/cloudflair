@@ -3,7 +3,7 @@ require 'cloudflair/error/cloudflair_error'
 
 module Cloudflair
   module Communication
-    def Communication.included(other_klass)
+    def self.included(other_klass)
       other_klass.extend ClassMethods
     end
 
@@ -59,7 +59,7 @@ module Cloudflair
           dirty[name[0..-2]] = args[0]
           return
         else
-          super(name_as_symbol, args, block)
+          super
         end
       end
 
@@ -71,11 +71,23 @@ module Cloudflair
       return dirty[name] if dirty.keys.include? name
       return data[name] if data.keys.include? name
 
-      super(name_as_symbol, args, block)
+      super
     end
 
-    alias_method :get!, :reload
-    alias_method :save, :patch
+    def respond_to_missing?(name_as_symbol, *args)
+      name = normalize_accessor name_as_symbol
+
+      return true if name.end_with?('=') && patchable_fields.include?(name[0..-2])
+      return true if name.end_with?('!') && data.keys.include?(name[0..-2])
+
+      return true if dirty.keys.include? name
+      return true if data.keys.include? name
+
+      super
+    end
+
+    alias get! reload
+    alias save patch
 
     private
 
@@ -99,8 +111,8 @@ module Cloudflair
       body = response.body
 
       unless body['success']
-        fail Cloudflair::CloudflairError.new "Unrecognized response format: '#{body}'" unless body['errors']
-        fail Cloudflair::CloudflareError.new body['errors']
+        fail Cloudflair::CloudflairError, "Unrecognized response format: '#{body}'" unless body['errors']
+        fail Cloudflair::CloudflareError, body['errors']
       end
 
       body['result']

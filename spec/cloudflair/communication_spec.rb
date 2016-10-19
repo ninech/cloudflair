@@ -8,7 +8,7 @@ describe Cloudflair::Communication do
 
     patchable_fields :name
 
-    def initialize(name='Urs')
+    def initialize(name = 'Urs')
       @name = name
     end
 
@@ -28,7 +28,7 @@ describe Cloudflair::Communication do
     Faraday.new do |faraday|
       faraday.adapter :test, faraday_stubs
       faraday.request :url_encoded
-      faraday.response :json, :content_type => /\bjson$/
+      faraday.response :json, content_type: /\bjson$/
     end
   end
   let(:response_json) do
@@ -43,7 +43,7 @@ describe Cloudflair::Communication do
 
   before do
     faraday_stubs.get('/tests/42') do |_env|
-      [200, { content_type: 'application/json' }, response_json,]
+      [200, { content_type: 'application/json' }, response_json]
     end
     allow(Faraday).to receive(:new).and_return faraday
   end
@@ -107,8 +107,8 @@ describe Cloudflair::Communication do
 
   describe 'send values' do
     before do
-      faraday_stubs.patch('/tests/42', { 'name' => 'Fritz' }) do |_env|
-        [200, { content_type: 'application/json' }, response_json,]
+      faraday_stubs.patch('/tests/42', 'name' => 'Fritz') do |_env|
+        [200, { content_type: 'application/json' }, response_json]
       end
     end
 
@@ -185,11 +185,11 @@ describe Cloudflair::Communication do
     it 'does not send PATCH' do
       expect(faraday).to_not receive(:patch)
 
-      expect(subject.update name: 'Fritz').to be subject
+      expect(subject.update(name: 'Fritz')).to be subject
     end
 
     it 'does not allow setting any value' do
-      expect { subject.name='Mars' }.to raise_error NoMethodError
+      expect { subject.name = 'Mars' }.to raise_error NoMethodError
     end
   end
 end
