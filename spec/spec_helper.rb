@@ -11,6 +11,7 @@ require 'cloudflair/error/cloudflair_error'
 require 'cloudflair'
 require 'cloudflair/api'
 require 'cloudflair/api/zone'
+require 'cloudflair/api/zone/purge_cache'
 require 'cloudflair/api/zone/settings'
 require 'cloudflair/api/zone/settings/development_mode'
 

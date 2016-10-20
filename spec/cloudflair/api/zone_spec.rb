@@ -30,6 +30,10 @@ describe Cloudflair::Zone do
     expect(subject.settings).to be_a Cloudflair::Settings
   end
 
+  it 'returns the PurgeCache object' do
+    expect(subject.purge_cache).to be_a Cloudflair::PurgeCache
+  end
+
   describe 'fetch values' do
     it 'fetches the data when asked to' do
       expect(faraday).to receive(:get).twice.and_call_original

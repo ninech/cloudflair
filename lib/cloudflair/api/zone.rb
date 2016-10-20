@@ -1,4 +1,5 @@
 require 'cloudflair/api/zone/settings'
+require 'cloudflair/api/zone/purge_cache'
 require 'cloudflair/entity'
 
 module Cloudflair
@@ -17,6 +18,10 @@ module Cloudflair
 
     def settings
       @settings ||= Cloudflair::Settings.new zone_id
+    end
+
+    def purge_cache
+      @purge_cache ||= Cloudflair::PurgeCache.new zone_id
     end
   end
 end
