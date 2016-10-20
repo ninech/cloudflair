@@ -1,4 +1,4 @@
-require 'cloudflair/api/zone'
+require 'cloudflair/api'
 require 'cloudflair/communication'
 require 'cloudflair/connection'
 require 'cloudflair/version'

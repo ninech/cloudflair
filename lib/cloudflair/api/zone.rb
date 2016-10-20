@@ -2,10 +2,6 @@ require 'cloudflair/api/zone/settings'
 require 'cloudflair/entity'
 
 module Cloudflair
-  def self.zone(zone_id)
-    Zone.new zone_id
-  end
-
   class Zone
     include Cloudflair::Entity
 

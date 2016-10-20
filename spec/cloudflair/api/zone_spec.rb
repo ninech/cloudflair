@@ -22,11 +22,6 @@ describe Cloudflair::Zone do
     allow(Faraday).to receive(:new).and_return faraday
   end
 
-  it 'returns a zone object' do
-    expect(subject).to_not be_nil
-    expect(subject).to be_a Cloudflair::Zone
-  end
-
   it 'knows the given zone id' do
     expect(subject.zone_id).to eq zone_identifier
   end
