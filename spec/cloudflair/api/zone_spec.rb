@@ -5,7 +5,7 @@ describe Cloudflair::Zone do
   let(:faraday) do
     Faraday.new(url: 'https://api.cloudflare.com/client/v4/', headers: Cloudflair::Connection.headers) do |faraday|
       faraday.adapter :test, faraday_stubs
-      faraday.request :url_encoded
+      faraday.request :json
       faraday.response :json, content_type: /\bjson$/
     end
   end
