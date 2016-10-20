@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Cloudflair::Zone do
+describe Cloudflair::Settings do
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
 
   let(:subject) { Cloudflair.zone(zone_identifier).settings }
