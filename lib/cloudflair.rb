@@ -1,6 +1,4 @@
 require 'cloudflair/api'
-require 'cloudflair/communication'
-require 'cloudflair/connection'
 require 'cloudflair/version'
 require 'dry-configurable'
 

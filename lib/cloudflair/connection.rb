@@ -1,3 +1,6 @@
+require 'faraday'
+require 'faraday_middleware'
+
 module Cloudflair
   class Connection
     def self.new
