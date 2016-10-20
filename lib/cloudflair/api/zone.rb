@@ -1,5 +1,5 @@
 require 'cloudflair/api/zone/settings'
-require 'cloudflair/communication'
+require 'cloudflair/entity'
 
 module Cloudflair
   def self.zone(zone_id)
@@ -7,11 +7,12 @@ module Cloudflair
   end
 
   class Zone
-    include Cloudflair::Communication
+    include Cloudflair::Entity
 
     attr_reader :zone_id
 
     patchable_fields :paused, :vanity_name_servers, :plan
+    deletable true
 
     def initialize(zone_id)
       @zone_id = zone_id

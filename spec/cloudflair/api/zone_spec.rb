@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Cloudflair::Zone do
   let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
   let(:faraday) do
-    Faraday.new do |faraday|
+    Faraday.new(url: 'https://api.cloudflare.com/client/v4/', headers: Cloudflair::Connection.headers) do |faraday|
       faraday.adapter :test, faraday_stubs
       faraday.request :url_encoded
       faraday.response :json, content_type: /\bjson$/
@@ -12,7 +12,7 @@ describe Cloudflair::Zone do
 
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/details.json') }
-  let(:url) { "/zones/#{zone_identifier}" }
+  let(:url) { "/client/v4/zones/#{zone_identifier}" }
   let(:subject) { Cloudflair.zone zone_identifier }
 
   before do
@@ -90,6 +90,34 @@ describe Cloudflair::Zone do
 
       expect(subject.update(paused: true)).to be subject
       expect(subject.paused).to be false
+    end
+  end
+
+  describe 'delete entities' do
+    let(:response_json) { File.read('spec/cloudflair/fixtures/zone/delete.json') }
+    before do
+      faraday_stubs.delete(url) do |_env|
+        [200, { content_type: 'application/json' }, response_json]
+      end
+    end
+
+    it 'deletes the entity from the server' do
+      expect(faraday).to receive(:delete).and_call_original
+
+      expect(subject.delete).to be subject
+    end
+
+    it 'calls the server only once' do
+      expect(faraday).to receive(:delete).once.and_call_original
+
+      expect(subject.delete).to be subject
+      expect(subject.delete).to be subject
+    end
+
+    it 'parses the response' do
+      expect(subject.delete).to be subject
+      expect(subject.id).to eq zone_identifier
+      expect { subject.name }.to raise_error NoMethodError
     end
   end
 end

@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'faraday'
-require 'faraday_middleware'
 require 'uri'
 
 describe Cloudflair::Connection do

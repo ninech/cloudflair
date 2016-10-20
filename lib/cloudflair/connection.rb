@@ -4,7 +4,7 @@ module Cloudflair
       config = Cloudflair.config
 
       Faraday.new(url: config.cloudflare.api_base_url, headers: headers) do |faraday|
-        faraday.request  :url_encoded
+        faraday.request :url_encoded
         faraday.response :logger
         faraday.response :json, content_type: /\bjson$/
 
