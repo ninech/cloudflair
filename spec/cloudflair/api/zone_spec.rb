@@ -92,4 +92,32 @@ describe Cloudflair::Zone do
       expect(subject.paused).to be false
     end
   end
+
+  describe 'delete entities' do
+    let(:response_json) { File.read('spec/cloudflair/fixtures/zone/delete.json') }
+    before do
+      faraday_stubs.delete("/zones/#{zone_identifier}") do |_env|
+        [200, { content_type: 'application/json' }, response_json]
+      end
+    end
+
+    it 'deletes the entity from the server' do
+      expect(faraday).to receive(:delete).and_call_original
+
+      expect(subject.delete).to be subject
+    end
+
+    it 'calls the server only once' do
+      expect(faraday).to receive(:delete).once.and_call_original
+
+      expect(subject.delete).to be subject
+      expect(subject.delete).to be subject
+    end
+
+    it 'parses the response' do
+      expect(subject.delete).to be subject
+      expect(subject.id).to eq zone_identifier
+      expect { subject.name }.to raise_error NoMethodError
+    end
+  end
 end

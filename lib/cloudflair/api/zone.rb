@@ -12,6 +12,7 @@ module Cloudflair
     attr_reader :zone_id
 
     patchable_fields :paused, :vanity_name_servers, :plan
+    deletable true
 
     def initialize(zone_id)
       @zone_id = zone_id

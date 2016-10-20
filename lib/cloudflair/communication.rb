@@ -20,6 +20,12 @@ module Cloudflair
           @patchable_fields = [fields.to_s]
         end
       end
+
+      def deletable(deletable = false)
+        return @deletable unless @deletable.nil?
+
+        @deletable = deletable
+      end
     end
 
     def revert
@@ -36,6 +42,16 @@ module Cloudflair
       return self if dirty.empty?
 
       @data = response connection.patch path, dirty
+      revert
+      self
+    end
+
+    def delete
+      fail Cloudflair::CloudflairError, "Can't delete unless deletable=true" unless deletable
+      return self if @deleted
+
+      @data = response connection.delete path
+      @deleted = true
       revert
       self
     end
@@ -129,6 +145,10 @@ module Cloudflair
 
     def patchable_fields
       self.class.patchable_fields
+    end
+
+    def deletable
+      self.class.deletable
     end
   end
 end

@@ -7,6 +7,7 @@ describe Cloudflair::Communication do
     attr_accessor :name
 
     patchable_fields :name
+    deletable true
 
     def initialize(name = 'Urs')
       @name = name
@@ -20,6 +21,16 @@ describe Cloudflair::Communication do
 
     def path
       "/tests/#{test_id}"
+    end
+  end
+  class TestEntity2
+    include Cloudflair::Communication
+
+    # no patchable_fields
+    # not deletable
+
+    def path
+      '/tests/42'
     end
   end
 
@@ -166,14 +177,6 @@ describe Cloudflair::Communication do
   end
 
   context 'api class has no patchable_fields' do
-    class TestEntity2
-      include Cloudflair::Communication
-
-      def path
-        '/tests/42'
-      end
-    end
-
     let(:subject) { TestEntity2.new }
 
     it 'still runs a fetch' do
@@ -190,6 +193,43 @@ describe Cloudflair::Communication do
 
     it 'does not allow setting any value' do
       expect { subject.name = 'Mars' }.to raise_error NoMethodError
+    end
+  end
+
+  describe 'delete entities' do
+    let(:response_json) do
+      '{"success":true,"errors":[],"messages":[],"result":{"id":42}}'
+    end
+    before do
+      faraday_stubs.delete('/tests/42') do |_env|
+        [200, { content_type: 'application/json' }, response_json]
+      end
+    end
+
+    it 'deletes the entity from the server' do
+      expect(faraday).to receive(:delete).and_call_original
+
+      expect(subject.delete).to be subject
+    end
+
+    it 'calls the server only once' do
+      expect(faraday).to receive(:delete).once.and_call_original
+
+      expect(subject.delete).to be subject
+      expect(subject.delete).to be subject
+    end
+
+    it 'parses the response' do
+      expect(subject.delete).to be subject
+      expect(subject.id).to be 42
+      expect { subject._name }.to raise_error NoMethodError
+    end
+
+    context 'non-deletable entity' do
+      let(:subject) { TestEntity2.new }
+      it 'raises an error' do
+        expect { subject.delete }.to raise_error Cloudflair::CloudflairError
+      end
     end
   end
 end
