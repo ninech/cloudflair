@@ -43,6 +43,8 @@ Cloudflair.configure do |config|
   # these are optional:
   config.cloudflare.api_base_url = 'https://your_cloudflare_mock.local'
   config.faraday.adapter = :your_preferred_faraday_adapter
+  # built-in options: :logger, :detailed_logger; default: nil
+  config.faraday.logger = :logger
 end
 ```
 

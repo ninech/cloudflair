@@ -13,8 +13,11 @@ require 'dry-configurable'
 #   config.cloudflare.auth.user_service_key = 'YOUR_USER_SERVICE_KEY'
 #
 #   # these are optional:
+#
 #   config.cloudflare.api_base_url = 'https://your_cloudflare_mock.local'
 #   config.faraday.adapter = :your_preferred_faraday_adapter
+#   # built-in options: :logger, :detailed_logger; default: nil
+#   config.faraday.logger = :logger
 # end
 # </code>
 module Cloudflair
@@ -32,5 +35,6 @@ module Cloudflair
 
   setting :faraday do
     setting :adapter, :net_http
+    setting :logger
   end
 end
