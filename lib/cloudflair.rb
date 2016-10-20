@@ -24,7 +24,7 @@ module Cloudflair
   extend Dry::Configurable
 
   setting :cloudflare do
-    setting :api_base_url, 'https://api.cloudflare.com'
+    setting :api_base_url, 'https://api.cloudflare.com/client/v4/'
     setting :auth do
       setting :key
       setting :email
