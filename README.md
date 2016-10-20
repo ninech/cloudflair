@@ -48,7 +48,7 @@ end
 
 ### Call An API Endpoint
 
-This gem is organized along the URL schema of cloudflair.
+This gem is organized along the URL schema of CloudFlare.
 
 ```ruby
 require 'cloudflair'
