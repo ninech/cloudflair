@@ -20,7 +20,7 @@ describe Cloudflair::Communication do
     end
 
     def path
-      "/tests/#{test_id}"
+      "tests/#{test_id}"
     end
   end
   class TestEntity2
@@ -30,13 +30,21 @@ describe Cloudflair::Communication do
     # not deletable
 
     def path
+      'tests/42'
+    end
+  end
+  class TestEntity3
+    include Cloudflair::Communication
+
+    def path
+      # Wrong URL (starts with '/')
       '/tests/42'
     end
   end
 
   let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
   let(:faraday) do
-    Faraday.new do |faraday|
+    Faraday.new(url: 'https://api.cloudflare.com/client/v4/', headers: Cloudflair::Connection.headers) do |faraday|
       faraday.adapter :test, faraday_stubs
       faraday.request :url_encoded
       faraday.response :json, content_type: /\bjson$/
@@ -50,10 +58,11 @@ describe Cloudflair::Communication do
       result_json +
       ',"result_info":{"page":1,"per_page":20,"count":1,"total_count":2000}}'
   end
+  let(:url) { '/client/v4/tests/42' }
   let(:subject) { TestEntity.new }
 
   before do
-    faraday_stubs.get('/tests/42') do |_env|
+    faraday_stubs.get(url) do |_env|
       [200, { content_type: 'application/json' }, response_json]
     end
     allow(Faraday).to receive(:new).and_return faraday
@@ -118,7 +127,7 @@ describe Cloudflair::Communication do
 
   describe 'send values' do
     before do
-      faraday_stubs.patch('/tests/42', 'name' => 'Fritz') do |_env|
+      faraday_stubs.patch(url, 'name' => 'Fritz') do |_env|
         [200, { content_type: 'application/json' }, response_json]
       end
     end
@@ -176,7 +185,7 @@ describe Cloudflair::Communication do
     end
   end
 
-  context 'api class has no patchable_fields' do
+  describe 'api class has no patchable_fields' do
     let(:subject) { TestEntity2.new }
 
     it 'still runs a fetch' do
@@ -201,7 +210,7 @@ describe Cloudflair::Communication do
       '{"success":true,"errors":[],"messages":[],"result":{"id":42}}'
     end
     before do
-      faraday_stubs.delete('/tests/42') do |_env|
+      faraday_stubs.delete(url) do |_env|
         [200, { content_type: 'application/json' }, response_json]
       end
     end
@@ -230,6 +239,14 @@ describe Cloudflair::Communication do
       it 'raises an error' do
         expect { subject.delete }.to raise_error Cloudflair::CloudflairError
       end
+    end
+  end
+
+  describe 'a wrong path is given' do
+    let(:subject) { TestEntity3.new }
+
+    it 'raises an exception' do
+      expect { subject.name }.to raise_error Faraday::Adapter::Test::Stubs::NotFound
     end
   end
 end

@@ -25,7 +25,7 @@ module Cloudflair
     private
 
     def path
-      "/zones/#{zone_id}"
+      "zones/#{zone_id}"
     end
   end
 end

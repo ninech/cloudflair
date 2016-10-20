@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Cloudflair::Zone do
   let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
   let(:faraday) do
-    Faraday.new do |faraday|
+    Faraday.new(url: 'https://api.cloudflare.com/client/v4/', headers: Cloudflair::Connection.headers) do |faraday|
       faraday.adapter :test, faraday_stubs
       faraday.request :url_encoded
       faraday.response :json, content_type: /\bjson$/
@@ -12,7 +12,7 @@ describe Cloudflair::Zone do
 
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/details.json') }
-  let(:url) { "/zones/#{zone_identifier}" }
+  let(:url) { "/client/v4/zones/#{zone_identifier}" }
   let(:subject) { Cloudflair.zone zone_identifier }
 
   before do
@@ -96,7 +96,7 @@ describe Cloudflair::Zone do
   describe 'delete entities' do
     let(:response_json) { File.read('spec/cloudflair/fixtures/zone/delete.json') }
     before do
-      faraday_stubs.delete("/zones/#{zone_identifier}") do |_env|
+      faraday_stubs.delete(url) do |_env|
         [200, { content_type: 'application/json' }, response_json]
       end
     end

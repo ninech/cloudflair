@@ -15,7 +15,7 @@ module Cloudflair
     private
 
     def path
-      "/zones/#{zone_id}/settings/development_mode"
+      "zones/#{zone_id}/settings/development_mode"
     end
   end
 end
