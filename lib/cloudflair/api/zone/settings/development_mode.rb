@@ -8,12 +8,14 @@ module Cloudflair
 
     patchable_fields :value
 
-    def path
-      "/zones/#{zone_id}/settings/development_mode"
-    end
-
     def initialize(zone_id)
       @zone_id = zone_id
+    end
+
+    private
+
+    def path
+      "/zones/#{zone_id}/settings/development_mode"
     end
   end
 end
