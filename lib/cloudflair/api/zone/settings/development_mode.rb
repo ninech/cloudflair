@@ -1,8 +1,8 @@
-require 'cloudflair/communication'
+require 'cloudflair/entity'
 
 module Cloudflair
   class DevelopmentMode
-    include Cloudflair::Communication
+    include Cloudflair::Entity
 
     attr_accessor :zone_id
 
