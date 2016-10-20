@@ -26,6 +26,14 @@ module Cloudflair
 
         @deletable = deletable
       end
+
+      def path(path = nil)
+        return @path if @path
+
+        fail ArgumentError, 'path is not defined' if path.nil?
+
+        @path = path
+      end
     end
 
     def revert
@@ -130,6 +138,17 @@ module Cloudflair
 
     def deletable
       self.class.deletable
+    end
+
+    def path
+      return @path if @path
+
+      path = self.class.path
+      interpreted_path = path.clone
+      path.scan /:([a-zA-Z_][a-zA-Z0-9_]+[!?=]?)/ do |match, *|
+        interpreted_path.gsub! ":#{match}", send(match).to_s
+      end
+      @path = interpreted_path
     end
 
     def dirty

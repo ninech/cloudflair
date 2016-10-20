@@ -8,6 +8,7 @@ describe Cloudflair::Entity do
 
     patchable_fields :name
     deletable true
+    path 'tests/:test_id'
 
     def initialize(name = 'Urs')
       @name = name
@@ -18,10 +19,6 @@ describe Cloudflair::Entity do
     def test_id
       42
     end
-
-    def path
-      "tests/#{test_id}"
-    end
   end
   class TestEntity2
     include Cloudflair::Entity
@@ -29,17 +26,18 @@ describe Cloudflair::Entity do
     # no patchable_fields
     # not deletable
 
-    def path
-      'tests/42'
-    end
+    path 'tests/42'
   end
   class TestEntity3
     include Cloudflair::Entity
 
-    def path
-      # Wrong URL (starts with '/')
-      '/tests/42'
-    end
+    # Wrong URL (starts with '/')
+    path '/tests/42'
+  end
+  class TestEntity4
+    include Cloudflair::Entity
+
+    # no path defined
   end
 
   let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
@@ -73,6 +71,10 @@ describe Cloudflair::Entity do
   end
 
   describe 'fetch values' do
+    it 'returns the correct name' do
+      expect(subject._name).to eq 'Beat'
+    end
+
     it 'caches the data' do
       expect(faraday).to receive(:get).once.and_call_original
 
@@ -86,12 +88,8 @@ describe Cloudflair::Entity do
       subject.reload
     end
 
-    it 'returns itself when get!ing' do
+    it 'returns itself when reloading' do
       expect(subject.reload).to be subject
-    end
-
-    it 'returns the correct name' do
-      expect(subject._name).to eq 'Beat'
     end
 
     it 'raises a NoMethodError when the field is not in the response' do
@@ -229,6 +227,14 @@ describe Cloudflair::Entity do
 
     it 'raises an exception' do
       expect { subject.name }.to raise_error Faraday::Adapter::Test::Stubs::NotFound
+    end
+  end
+
+  describe 'no path given' do
+    let(:subject) { TestEntity4.new }
+
+    it 'raises an exception' do
+      expect { subject.reload }.to raise_error ArgumentError
     end
   end
 end

@@ -13,6 +13,7 @@ module Cloudflair
 
     patchable_fields :paused, :vanity_name_servers, :plan
     deletable true
+    path 'zones/:zone_id'
 
     def initialize(zone_id)
       @zone_id = zone_id
@@ -20,12 +21,6 @@ module Cloudflair
 
     def settings
       @settings ||= Cloudflair::Settings.new zone_id
-    end
-
-    private
-
-    def path
-      "zones/#{zone_id}"
     end
   end
 end
