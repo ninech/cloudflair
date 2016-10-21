@@ -9,7 +9,7 @@ module Cloudflair
 
       Faraday.new(url: config.cloudflare.api_base_url, headers: headers) do |faraday|
         faraday.request :json
-        faraday.response config.faraday.adapter if config.faraday.logger
+        faraday.response config.faraday.logger if config.faraday.logger
         faraday.response :json, content_type: /\bjson$/
 
         faraday.adapter config.faraday.adapter || Faraday.default_adapter
