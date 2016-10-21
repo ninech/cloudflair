@@ -9,11 +9,11 @@ module Cloudflair
   end
 
   def self.zones(filter = {})
-    json_hashes = response connection.get('zones', filter)
+    raw_zones = response connection.get('zones', filter)
 
-    json_hashes.map do |json|
-      zone = Zone.new(json['id'])
-      zone.data = json
+    raw_zones.map do |raw_zone|
+      zone = Zone.new(raw_zone['id'])
+      zone.data = raw_zone
       zone
     end
   end
