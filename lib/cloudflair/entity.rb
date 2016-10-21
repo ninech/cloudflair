@@ -111,6 +111,12 @@ module Cloudflair
       super
     end
 
+    ##
+    # :internal: Used to pre-populate an entity
+    def data=(data)
+      @data = data
+    end
+
     alias get! reload
     alias save patch
 

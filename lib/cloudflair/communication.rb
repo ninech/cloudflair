@@ -9,7 +9,7 @@ module Cloudflair
 
       http_error? response.status
 
-      parse response
+      read response
     end
 
     def connection
@@ -18,7 +18,7 @@ module Cloudflair
 
     private
 
-    def parse(response)
+    def read(response)
       body = response.body
 
       unless body['success']
