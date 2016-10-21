@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result": {
+    "id": "e592fd9519420ba7405e1307bff33214",
+    "name": "Pro Plan",
+    "price": 20,
+    "currency": "USD",
+    "frequency": "monthly",
+    "legacy_id": "pro",
+    "is_subscribed": true,
+    "can_subscribe": true
+  }
+}

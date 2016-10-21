@@ -1,5 +1,6 @@
 require 'cloudflair/api/zone/settings'
 require 'cloudflair/api/zone/purge_cache'
+require 'cloudflair/api/zone/available_plan'
 require 'cloudflair/entity'
 
 module Cloudflair
@@ -17,11 +18,21 @@ module Cloudflair
     end
 
     def settings
-      @settings ||= Cloudflair::Settings.new zone_id
+      Cloudflair::Settings.new zone_id
     end
 
     def purge_cache
-      @purge_cache ||= Cloudflair::PurgeCache.new zone_id
+      Cloudflair::PurgeCache.new zone_id
+    end
+
+    def available_plans
+      raw_plans = response connection.get("#{path}/available_plans")
+
+      raw_plans.map do |raw_plan|
+        zone = Cloudflair::AvailablePlan.new(zone_id, raw_plan['id'])
+        zone.data = raw_plan
+        zone
+      end
     end
   end
 end

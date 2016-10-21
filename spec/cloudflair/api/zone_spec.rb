@@ -60,6 +60,36 @@ describe Cloudflair::Zone do
     it 'returns the remaining development mode time' do
       expect(subject.development_mode).to eq 7200
     end
+
+    context '#available_plans' do
+      let(:url) { "/client/v4/zones/#{zone_identifier}/available_plans" }
+      let(:response_json) { File.read('spec/cloudflair/fixtures/zone/plans.json') }
+      let(:available_plans) { subject.available_plans }
+
+      it 'calls the other url' do
+        expect(faraday).to receive(:get).once.and_call_original
+
+        available_plans
+      end
+
+      it 'returns the correct types' do
+        expect(available_plans).to be_a Array
+        available_plans.each do |plan|
+          expect(plan).to be_a Cloudflair::AvailablePlan
+        end
+      end
+
+      it 'returns the correct amount' do
+        expect(available_plans.length).to be 1
+      end
+
+      it 'returns the correct values' do
+        plan = available_plans[0]
+        expect(plan.id).to eq 'e592fd9519420ba7405e1307bff33214'
+        expect(plan.price).to be 20
+        expect(plan.is_subscribed).to be true
+      end
+    end
   end
 
   describe 'send values' do
