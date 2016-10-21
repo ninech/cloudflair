@@ -90,6 +90,62 @@ describe Cloudflair::Zone do
         expect(plan.is_subscribed).to be true
       end
     end
+
+    context '#plan' do
+      it 'returns the plan as actual object' do
+        expect(subject.plan).to_not be_a Hash
+      end
+
+      it 'passes all the values to the plan object' do
+        expect(faraday).to receive(:get).once.and_call_original
+
+        expect(subject.plan.id).to eq 'e592fd9519420ba7405e1307bff33214'
+      end
+
+      it 'is possible to reload the plan object' do
+        expect(faraday).to receive(:get).once.and_call_original
+
+        expect(subject.plan.name).to eq 'Pro Plan'
+      end
+    end
+
+    context '#plan_pending' do
+      it 'returns the pending plan as actual object' do
+        expect(subject.plan_pending).to_not be_a Hash
+      end
+
+      it 'passes all the values to the plan_pending object' do
+        expect(faraday).to receive(:get).once.and_call_original
+
+        expect(subject.plan_pending.id).to eq 'e592fd9519420ba7405e1307bff33214'
+        expect(subject.plan_pending.price).to be 20
+      end
+
+      it 'is possible to reload the plan_pending object' do
+        expect(faraday).to receive(:get).once.and_call_original
+
+        expect(subject.plan_pending.name).to eq 'Pro Plan'
+      end
+    end
+
+    context '#owner' do
+      it 'returns the `owner` as actual object' do
+        expect(subject.owner).to_not be_a Hash
+      end
+
+      it 'passes all the value to the `owner` object' do
+        expect(faraday).to receive(:get).once.and_call_original
+
+        expect(subject.owner.id).to eq '7c5dae5552338874e5053f2534d2767a'
+        expect(subject.owner.email).to eq 'user@example.com'
+      end
+
+      it 'is possible to reload the `owner` object' do
+        expect(faraday).to receive(:get).once.and_call_original
+
+        expect(subject.owner.owner_type).to eq 'user'
+      end
+    end
   end
 
   describe 'send values' do

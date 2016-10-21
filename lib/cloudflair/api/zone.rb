@@ -10,6 +10,7 @@ module Cloudflair
     attr_reader :zone_id
 
     patchable_fields :paused, :vanity_name_servers, :plan
+    object_fields :plan, :plan_pending, :owner
     deletable true
     path 'zones/:zone_id'
 

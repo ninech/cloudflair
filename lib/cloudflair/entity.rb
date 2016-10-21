@@ -9,6 +9,12 @@ module Cloudflair
     end
 
     module ClassMethods
+      def self.extended(other_klass)
+        @other_klass = other_klass
+      end
+
+      attr_accessor :fields_wrapper_class
+
       def patchable_fields(*fields)
         return @patchable_fields if @patchable_fields
 
@@ -34,10 +40,22 @@ module Cloudflair
 
         @path = path
       end
+
+      def object_fields(*fields)
+        return @field_objects if @field_objects
+
+        if fields.nil?
+          @field_objects = []
+        elsif fields.is_a?(Array)
+          @field_objects = fields.map(&:to_s)
+        else
+          @field_objects = [fields.to_s]
+        end
+      end
     end
 
     def revert
-      dirty.clear
+      dirty_data.clear
     end
 
     def reload
@@ -47,9 +65,9 @@ module Cloudflair
     end
 
     def patch
-      return self if dirty.empty?
+      return self if dirty_data.empty?
 
-      @data = response connection.patch path, dirty
+      @data = response connection.patch path, dirty_data
       revert
       self
     end
@@ -72,7 +90,7 @@ module Cloudflair
         checked_updated_fields[s_key] = values if patchable_fields.include? s_key
       end
 
-      dirty.merge! checked_updated_fields
+      dirty_data.merge! checked_updated_fields
       patch
     end
 
@@ -81,19 +99,21 @@ module Cloudflair
 
       if name.end_with?('=')
         if patchable_fields.include?(name[0..-2])
-          dirty[name[0..-2]] = args[0]
+          dirty_data[name[0..-2]] = args[0]
           return
         else
           super
         end
       end
 
-      # allow access to the original data using 'zone.always_string!' or 'zone._name!'
+      # allow access to the unmodified data using 'zone.always_string!' or 'zone._name!'
       if name.end_with?('!') && data.keys.include?(name[0..-2])
         return data[name[0..2]]
       end
 
-      return dirty[name] if dirty.keys.include? name
+      return objectified_clone!(name) if object_fields.include? name
+
+      return dirty_data[name] if dirty_data.keys.include? name
       return data[name] if data.keys.include? name
 
       super
@@ -105,7 +125,7 @@ module Cloudflair
       return true if name.end_with?('=') && patchable_fields.include?(name[0..-2])
       return true if name.end_with?('!') && data.keys.include?(name[0..-2])
 
-      return true if dirty.keys.include? name
+      return true if dirty_data.keys.include? name
       return true if data.keys.include? name
 
       super
@@ -146,6 +166,20 @@ module Cloudflair
       self.class.deletable
     end
 
+    def object_fields
+      self.class.object_fields
+    end
+
+    def objectified_clone!(name)
+      cloned = self.clone
+      cloned.define_singleton_method :read do |args|
+        data = self.method(:read).super_method.call args
+        data[name]
+      end
+      cloned.data = data[name]
+      cloned
+    end
+
     def path
       return @path if @path
 
@@ -160,8 +194,8 @@ module Cloudflair
       interpreted_path
     end
 
-    def dirty
-      @dirty ||= {}
+    def dirty_data
+      @dirty_data ||= {}
     end
   end
 end

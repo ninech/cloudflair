@@ -9,6 +9,7 @@ describe Cloudflair::Entity do
     patchable_fields :name
     deletable true
     path 'tests/:test_id'
+    object_fields :an_object
 
     def initialize(name = 'Urs')
       @name = name
@@ -50,7 +51,7 @@ describe Cloudflair::Entity do
   end
   let(:response_json) do
     result_json =
-      '{"name":"Beat","boolean":true,"number":1,"float_number":1.2,"date":"2014-05-28T18:46:18.764425Z"}'
+      '{"name":"Beat","boolean":true,"number":1,"float_number":1.2,"date":"2014-05-28T18:46:18.764425Z","an_object":{"key":"value","second":2},"an_array":[]}'
 
     '{"success":true,"errors":[],"messages":[],"result":' +
       result_json +
@@ -102,6 +103,11 @@ describe Cloudflair::Entity do
 
     it 'returns a floating-point number' do
       expect(subject.float_number).to be 1.2
+    end
+
+    it 'returns an Array' do
+      expect(subject.an_array).to be_a Array
+      expect(subject.an_array.length).to be 0
     end
   end
 
@@ -235,6 +241,45 @@ describe Cloudflair::Entity do
 
     it 'raises an exception' do
       expect { subject.reload }.to raise_error ArgumentError
+    end
+  end
+
+  describe 'objectification of fields' do
+    it 'does not return `an_object` as Hash' do
+      expect(subject.an_object).to_not be_a Hash
+    end
+
+    it 'returns the correct values' do
+      expect(subject.an_object).to_not be_a Hash
+      expect(subject.an_object.key).to eq 'value'
+      expect(subject.an_object.second).to be 2
+    end
+
+    it 'does not call the server for the sub-object' do
+      expect(faraday).to receive(:get).once.and_call_original
+
+      expect(subject._name).to eq 'Beat'
+      expect(subject.an_object).to_not be_a Hash
+    end
+
+    it 'is a new object everytime' do
+      a = subject.an_object
+      b = subject.an_object
+
+      expect(a).to_not be b
+      expect(b).to_not be a
+    end
+
+    it 'is reloads and the values are correct again' do
+      expect(faraday).to receive(:get).twice.and_call_original
+
+      sub_subject = subject.an_object
+      expect(sub_subject).to_not be_a Hash
+
+      expect(sub_subject.reload).to be sub_subject
+      expect(sub_subject).to_not be_a Hash
+      expect(sub_subject.key).to eq 'value'
+      expect(sub_subject.second).to be 2
     end
   end
 end
