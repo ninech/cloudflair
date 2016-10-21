@@ -96,7 +96,7 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## About
 
-This Gem is currently maintained and funded by [nine.ch](https://nine.ch).
+This gem is currently maintained and funded by [nine.ch](https://nine.ch).
 
 [![nine.ch Logo](https://blog.nine.ch/assets/logo.png)](https://nine.ch)
 
