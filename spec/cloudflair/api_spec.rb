@@ -5,8 +5,8 @@ describe Cloudflair do
 
   describe '#zone' do
     it 'returns a zone object' do
-      expect(subject.zone zone_identifier).to_not be_nil
-      expect(subject.zone zone_identifier).to be_a Cloudflair::Zone
+      expect(subject.zone(zone_identifier)).to_not be_nil
+      expect(subject.zone(zone_identifier)).to be_a Cloudflair::Zone
     end
 
     it 'returns the correct zone object' do
@@ -14,8 +14,8 @@ describe Cloudflair do
     end
 
     it 'returns a new zone every time' do
-      a=subject.zone zone_identifier
-      b=subject.zone zone_identifier
+      a = subject.zone zone_identifier
+      b = subject.zone zone_identifier
 
       expect(a).to_not be_nil
       expect(b).to_not be_nil

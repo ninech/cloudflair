@@ -7,7 +7,7 @@ module Cloudflair
     def response(response)
       return nil if response.status == 304
 
-      http_error? response.status
+      raise_on_http_error response.status
 
       read response
     end
@@ -29,28 +29,34 @@ module Cloudflair
       body['result']
     end
 
-    def http_error?(status)
+    def raise_on_http_error(status)
       case status
       when 200..399 then
-        return
+      when 400..499 then
+        raise_on_http_client_error status
+      when 500..599 then
+        fail Cloudflair::CloudflairError, "#{status} Remote Error"
+      else
+        fail Cloudflair::CloudflairError, "#{status} Unknown Error Code"
+      end
+    end
+
+    def raise_on_http_client_error(status)
+      case status
       when 400 then
         fail Cloudflair::CloudflairError, '400 Bad Request'
       when 401 then
         fail Cloudflair::CloudflairError, '401 Unauthorized'
       when 403 then
         fail Cloudflair::CloudflairError, '403 Forbidden'
-      when 429 then
-        fail Cloudflair::CloudflairError, '429 Too Many Requests'
       when 405 then
         fail Cloudflair::CloudflairError, '405 Method Not Allowed'
       when 415 then
         fail Cloudflair::CloudflairError, '415 Unsupported Media Type'
-      when 400..499 then
-        fail Cloudflair::CloudflairError, "#{status} Request Error"
-      when 500..599 then
-        fail Cloudflair::CloudflairError, "#{status} Remote Error"
+      when 429 then
+        fail Cloudflair::CloudflairError, '429 Too Many Requests'
       else
-        fail Cloudflair::CloudflairError, "#{status} Unknown Error Code"
+        fail Cloudflair::CloudflairError, "#{status} Request Error"
       end
     end
   end

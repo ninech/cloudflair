@@ -24,7 +24,7 @@ describe Cloudflair::PurgeCache do
   describe '#everything' do
     before do
       faraday_stubs.delete(url) do |env|
-        expect(env.body).to eq({ purge_everything: true })
+        expect(env.body).to eq(purge_everything: true)
 
         [200, { content_type: 'application/json' }, response_json]
       end
@@ -33,21 +33,21 @@ describe Cloudflair::PurgeCache do
     it 'deletes all files' do
       expect(faraday).to receive(:delete).and_call_original
 
-      expect(subject.everything true).to be subject
+      expect(subject.everything(true)).to be subject
     end
 
     it 'is repeatedly executed' do
       expect(faraday).to receive(:delete).twice.and_call_original
 
-      expect(subject.everything true).to be subject
-      expect(subject.everything true).to be subject
+      expect(subject.everything(true)).to be subject
+      expect(subject.everything(true)).to be subject
     end
 
     context 'invalid response' do
-      let (:response_json) { '{"foo":"bar"}' }
+      let(:response_json) { '{"foo":"bar"}' }
 
       it 'raises an error' do
-        expect { subject.everything true }.to raise_error Cloudflair::CloudflairError
+        expect { subject.everything(true) }.to raise_error Cloudflair::CloudflairError
       end
     end
   end
@@ -66,7 +66,7 @@ describe Cloudflair::PurgeCache do
     it 'deletes all files' do
       expect(faraday).to receive(:delete).and_call_original
 
-      expect(subject.selective selective_list).to be subject
+      expect(subject.selective(selective_list)).to be subject
     end
 
     it 'is repeatedly executed' do
@@ -77,7 +77,7 @@ describe Cloudflair::PurgeCache do
     end
 
     context 'invalid response' do
-      let (:response_json) { '{"foo":"bar"}' }
+      let(:response_json) { '{"foo":"bar"}' }
 
       it 'raises an error' do
         expect { subject.selective(selective_list) }.to raise_error Cloudflair::CloudflairError

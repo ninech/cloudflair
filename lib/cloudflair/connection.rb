@@ -7,13 +7,7 @@ module Cloudflair
     def self.new
       config = Cloudflair.config
 
-      Faraday.new(url: config.cloudflare.api_base_url, headers: headers) do |faraday|
-        faraday.request :json
-        faraday.response config.faraday.logger if config.faraday.logger
-        faraday.response :json, content_type: /\bjson$/
-
-        faraday.adapter config.faraday.adapter || Faraday.default_adapter
-      end
+      new_faraday_from config
     end
 
     def self.headers
@@ -26,6 +20,16 @@ module Cloudflair
         headers['X-Auth-User-Service-Key'] = cloudflare_auth_config.user_service_key
       end
       headers
+    end
+
+    private_class_method def self.new_faraday_from(config)
+      Faraday.new(url: config.cloudflare.api_base_url, headers: headers) do |faraday|
+        faraday.request :json
+        faraday.response config.faraday.logger if config.faraday.logger
+        faraday.response :json, content_type: /\bjson$/
+
+        faraday.adapter config.faraday.adapter || Faraday.default_adapter
+      end
     end
   end
 end

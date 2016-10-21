@@ -32,15 +32,15 @@ describe Cloudflair::Communication do
     end
     let(:response_body) do
       JSON.
-        parse (
-                '{"success":true,"errors":[],"messages":[],"result":' +
-                  result_json +
-                  ',"result_info":{"page":1,"per_page":20,"count":1,"total_count":2000}}'
-              )
+        parse(
+          '{"success":true,"errors":[],"messages":[],"result":' +
+            result_json +
+            ',"result_info":{"page":1,"per_page":20,"count":1,"total_count":2000}}'
+        )
     end
 
     it 'parses the response' do
-      expect(subject.response(response)).to eq(JSON.parse result_json)
+      expect(subject.response(response)).to eq(JSON.parse(result_json))
     end
   end
 
@@ -54,8 +54,9 @@ describe Cloudflair::Communication do
 
   describe 'error response' do
     let(:response_body) do
-      JSON.
-        parse('{"result":null,"success":false,"errors":[{"code":1003,"message":"Invalid or missing zone id."}],"messages":[]}')
+      JSON.parse(
+        '{"result":null,"success":false,"errors":[{"code":1003,"message":"Invalid or missing zone id."}],"messages":[]}'
+      )
     end
 
     it 'raises the appropriate exception' do
@@ -68,7 +69,7 @@ describe Cloudflair::Communication do
       let(:response) { double('response', status: 304) }
 
       it 'returns and empty object' do
-        expect(subject.response response).to be_nil
+        expect(subject.response(response)).to be_nil
       end
     end
 

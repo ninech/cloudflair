@@ -3,6 +3,7 @@ module Cloudflair
     def faraday_stubs
       Faraday::Adapter::Test::Stubs.new
     end
+
     def faraday
       Faraday.new do |faraday|
         faraday.adapter :test, faraday_stubs

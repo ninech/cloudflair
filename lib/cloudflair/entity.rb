@@ -149,12 +149,15 @@ module Cloudflair
     def path
       return @path if @path
 
-      path = self.class.path
+      @path = replace_path_variables_in self.class.path
+    end
+
+    def replace_path_variables_in(path)
       interpreted_path = path.clone
-      path.scan /:([a-zA-Z_][a-zA-Z0-9_]+[!?=]?)/ do |match, *|
+      path.scan(/:([a-zA-Z_][a-zA-Z0-9_]+[!?=]?)/) do |match, *|
         interpreted_path.gsub! ":#{match}", send(match).to_s
       end
-      @path = interpreted_path
+      interpreted_path
     end
 
     def dirty
