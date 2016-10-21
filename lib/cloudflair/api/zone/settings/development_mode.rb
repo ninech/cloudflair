@@ -4,7 +4,7 @@ module Cloudflair
   class DevelopmentMode
     include Cloudflair::Entity
 
-    attr_accessor :zone_id
+    attr_reader :zone_id
 
     patchable_fields :value
     path 'zones/:zone_id/settings/development_mode'
