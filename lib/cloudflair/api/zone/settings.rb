@@ -16,5 +16,9 @@ module Cloudflair
     def advanced_ddos
       Cloudflair::AdvancedDdos.new @zone_id
     end
+
+    def always_online
+      Cloudflair::AlwaysOnline.new @zone_id
+    end
   end
 end
