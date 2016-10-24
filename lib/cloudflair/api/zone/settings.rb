@@ -1,4 +1,6 @@
 require 'cloudflair/api/zone/settings/advanced_ddos'
+require 'cloudflair/api/zone/settings/always_online'
+require 'cloudflair/api/zone/settings/browser_cache_ttl'
 require 'cloudflair/api/zone/settings/development_mode'
 
 module Cloudflair
@@ -19,6 +21,10 @@ module Cloudflair
 
     def always_online
       Cloudflair::AlwaysOnline.new @zone_id
+    end
+
+    def browser_cache_ttl
+      Cloudflair::BrowserCacheTtl.new @zone_id
     end
   end
 end
