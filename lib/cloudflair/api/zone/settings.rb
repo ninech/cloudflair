@@ -1,3 +1,4 @@
+require 'cloudflair/api/zone/settings/advanced_ddos'
 require 'cloudflair/api/zone/settings/development_mode'
 
 module Cloudflair
@@ -10,6 +11,10 @@ module Cloudflair
 
     def development_mode
       Cloudflair::DevelopmentMode.new @zone_id
+    end
+
+    def advanced_ddos
+      Cloudflair::AdvancedDdos.new @zone_id
     end
   end
 end

@@ -15,6 +15,7 @@ require 'cloudflair/api/zone/available_plan'
 require 'cloudflair/api/zone/available_rate_plan'
 require 'cloudflair/api/zone/purge_cache'
 require 'cloudflair/api/zone/settings'
+require 'cloudflair/api/zone/settings/advanced_ddos'
 require 'cloudflair/api/zone/settings/development_mode'
 
 RSpec.configure do |config|
