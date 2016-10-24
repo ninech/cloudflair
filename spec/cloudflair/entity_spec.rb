@@ -10,6 +10,7 @@ describe Cloudflair::Entity do
     deletable true
     path 'tests/:test_id'
     object_fields :an_object
+    array_object_fields :an_object_array
 
     def initialize(name = 'Urs')
       @name = name
@@ -50,8 +51,27 @@ describe Cloudflair::Entity do
     end
   end
   let(:response_json) do
-    result_json =
-      '{"name":"Beat","boolean":true,"number":1,"float_number":1.2,"date":"2014-05-28T18:46:18.764425Z","an_object":{"key":"value","second":2},"an_array":[]}'
+    result_json = <<-json
+      {
+        "name": "Beat",
+        "boolean": true,
+        "number": 1,
+        "float_number": 1.2,
+        "date": "2014-05-28T18:46:18.764425Z",
+        "an_object": {
+          "key": "value",
+          "second": 2
+        },
+        "an_array": [],
+        "an_object_array": [{
+          "name": "obj1"
+        }, {
+          "name": "obj2"
+        }, {
+          "name": "obj3"
+        }]
+      }
+    json
 
     '{"success":true,"errors":[],"messages":[],"result":' +
       result_json +
