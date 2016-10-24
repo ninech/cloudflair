@@ -42,14 +42,40 @@ module Cloudflair
       end
 
       def object_fields(*fields)
-        return @field_objects if @field_objects
+        return @object_fields if @object_fields
 
-        if fields.nil?
-          @field_objects = []
-        elsif fields.is_a?(Array)
-          @field_objects = fields.map(&:to_s)
+        if fields.nil? || fields.empty?
+          @object_fields = []
         else
-          @field_objects = [fields.to_s]
+          @object_fields = fields.map(&:to_s)
+        end
+      end
+
+      # allowed values:
+      # <code>
+      # array_object_fields :field_a, :field_b, :field_c, 'fieldname_as_string'
+      # # next is ame as previous
+      # array_object_fields field_a: nil, field_b: nil, field_c: nil, 'fieldname_as_string': nil
+      # # next defines the types of the objects
+      # array_object_fields field_a: Klass, field_b: proc { |data| Klass.new data }, field_c: nil, 'fieldname_as_string'
+      # </code>
+      def array_object_fields(*fields_to_class_map)
+        return @array_object_fields if @array_object_fields
+
+        if fields_to_class_map.nil? || fields_to_class_map.empty?
+          @array_object_fields = {}
+        else
+          fields_map = {}
+          fields_to_class_map.each do |field|
+            if field.is_a?(Hash)
+              fields_to_class_map[0].each do |field, klass_or_proc|
+                fields_map[field.to_s] = klass_or_proc
+              end
+            else
+              fields_map[field.to_s] = nil
+            end
+          end
+          @array_object_fields = fields_map
         end
       end
     end
@@ -111,7 +137,8 @@ module Cloudflair
         return data[name[0..2]]
       end
 
-      return objectified_clone!(name) if object_fields.include? name
+      return objectify(name) if object_fields.include? name
+      return arrayify(name, array_object_fields[name]) if array_object_fields.keys.include? name
 
       return dirty_data[name] if dirty_data.keys.include? name
       return data[name] if data.keys.include? name
@@ -126,6 +153,7 @@ module Cloudflair
       return true if name.end_with?('!') && data.keys.include?(name[0..-2])
 
       return true if object_fields.include? name
+      return true if array_object_fields.keys.include? name
 
       return true if dirty_data.keys.include? name
       return true if data.keys.include? name
@@ -172,14 +200,33 @@ module Cloudflair
       self.class.object_fields
     end
 
-    def objectified_clone!(name)
-      objectified = Class.new()
-      data[name].each do |k, v|
+    def array_object_fields
+      self.class.array_object_fields
+    end
+
+    def objectify(name)
+      hash_to_object data[name]
+    end
+
+    def hash_to_object(hash)
+      objectified = Class.new
+      hash.each do |k, v|
         objectified.instance_variable_set("@#{k}", v)
         objectified.class.send(:define_method, k, proc { self.instance_variable_get("@#{k}") })
       end
-
       objectified
+    end
+
+    def arrayify(name, klass_or_proc=nil)
+      data[name].map do |data|
+        if klass_or_proc.nil?
+          hash_to_object data
+        elsif klass_or_proc.is_a? Proc
+          klass_or_proc.call data
+        else
+          klass_or_proc.new data
+        end
+      end
     end
 
     def path
