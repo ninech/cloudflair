@@ -269,17 +269,5 @@ describe Cloudflair::Entity do
       expect(a).to_not be b
       expect(b).to_not be a
     end
-
-    it 'is reloads and the values are correct again' do
-      expect(faraday).to receive(:get).twice.and_call_original
-
-      sub_subject = subject.an_object
-      expect(sub_subject).to_not be_a Hash
-
-      expect(sub_subject.reload).to be sub_subject
-      expect(sub_subject).to_not be_a Hash
-      expect(sub_subject.key).to eq 'value'
-      expect(sub_subject.second).to be 2
-    end
   end
 end

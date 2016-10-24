@@ -125,6 +125,8 @@ module Cloudflair
       return true if name.end_with?('=') && patchable_fields.include?(name[0..-2])
       return true if name.end_with?('!') && data.keys.include?(name[0..-2])
 
+      return true if object_fields.include? name
+
       return true if dirty_data.keys.include? name
       return true if data.keys.include? name
 
@@ -171,13 +173,13 @@ module Cloudflair
     end
 
     def objectified_clone!(name)
-      cloned = self.clone
-      cloned.define_singleton_method :read do |args|
-        data = self.method(:read).super_method.call args
-        data[name]
+      objectified = Class.new()
+      data[name].each do |k, v|
+        objectified.instance_variable_set("@#{k}", v)
+        objectified.class.send(:define_method, k, proc { self.instance_variable_get("@#{k}") })
       end
-      cloned.data = data[name]
-      cloned
+
+      objectified
     end
 
     def path
