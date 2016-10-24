@@ -22,7 +22,7 @@ describe Cloudflair::Entity do
       42
     end
   end
-  class TestSubPORO
+  class TestSubPoro
     attr_accessor :name
 
     def initialize(data)
@@ -34,7 +34,7 @@ describe Cloudflair::Entity do
 
     attr_accessor :test_id
     path 'tests/:test_id'
-    array_object_fields an_object_array: TestSubPORO
+    array_object_fields an_object_array: TestSubPoro
 
     def initialize
       @test_id = 42
@@ -147,7 +147,7 @@ describe Cloudflair::Entity do
       it 'does not return `an_object_array` as Hashes' do
         expect(subject.an_object_array).to be_a Array
         subject.an_object_array.each do |obj|
-          expect(obj).to be_a TestSubPORO
+          expect(obj).to be_a TestSubPoro
         end
       end
 
