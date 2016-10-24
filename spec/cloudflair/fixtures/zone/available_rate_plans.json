@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result": {
+    "id": "free",
+    "name": "Free Plan",
+    "currency": "USD",
+    "duration": 1,
+    "frequency": "monthly",
+    "components": [
+      {
+        "name": "page_rules",
+        "default": 5,
+        "unit_price": 1
+      }
+    ]
+  }
+}

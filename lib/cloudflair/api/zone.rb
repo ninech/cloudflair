@@ -1,6 +1,7 @@
 require 'cloudflair/api/zone/settings'
 require 'cloudflair/api/zone/purge_cache'
 require 'cloudflair/api/zone/available_plan'
+require 'cloudflair/api/zone/available_rate_plan'
 require 'cloudflair/entity'
 
 module Cloudflair
@@ -34,6 +35,10 @@ module Cloudflair
         zone.data = raw_plan
         zone
       end
+    end
+
+    def available_rate_plans
+      Cloudflair::AvailableRatePlan.new zone_id
     end
   end
 end
