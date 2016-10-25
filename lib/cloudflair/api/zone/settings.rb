@@ -13,6 +13,7 @@ require 'cloudflair/api/zone/settings/minify'
 require 'cloudflair/api/zone/settings/mirage'
 require 'cloudflair/api/zone/settings/mobile_redirect'
 require 'cloudflair/api/zone/settings/origin_error_page_pass_thru'
+require 'cloudflair/api/zone/settings/polish'
 
 module Cloudflair
   class Settings
@@ -37,6 +38,7 @@ module Cloudflair
       mirage: Cloudflair::Mirage,
       mobile_redirect: Cloudflair::MobileRedirect,
       origin_error_page_pass_thru: Cloudflair::OriginErrorPagePassThru,
+      polish: Cloudflair::Polish,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id

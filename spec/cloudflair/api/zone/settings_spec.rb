@@ -24,6 +24,7 @@ describe Cloudflair::Settings do
     mirage: Cloudflair::Mirage,
     mobile_redirect: Cloudflair::MobileRedirect,
     origin_error_page_pass_thru: Cloudflair::OriginErrorPagePassThru,
+    polish: Cloudflair::Polish,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass
