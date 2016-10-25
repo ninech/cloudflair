@@ -33,4 +33,20 @@ describe Cloudflair::DevelopmentMode do
       expect(subject.time_remaining).to be 3600
     end
   end
+
+  describe 'put values' do
+    before do
+      faraday_stubs.patch(url, 'value' => 'on') do |_env|
+        [200, { content_type: 'application/json' }, response_json]
+      end
+    end
+
+    it 'saves the values' do
+      expect(faraday).to receive(:patch).and_call_original
+      subject.value = 'on'
+      subject.save
+
+      expect(subject.value).to eq 'off'
+    end
+  end
 end
