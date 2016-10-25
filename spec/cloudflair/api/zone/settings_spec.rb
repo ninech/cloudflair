@@ -9,8 +9,15 @@ describe Cloudflair::Settings do
     expect(subject.zone_id).to eq zone_identifier
   end
 
-  it 'returns an initialized development_mode object' do
-    expect(subject.development_mode).to be_a Cloudflair::DevelopmentMode
-    expect(subject.development_mode.zone_id).to eq zone_identifier
+  { development_mode: Cloudflair::DevelopmentMode,
+    always_online: Cloudflair::AlwaysOnline,
+    advanced_ddos: Cloudflair::AdvancedDdos,
+    browser_cache_ttl: Cloudflair::BrowserCacheTtl,
+    browser_check: Cloudflair::BrowserCheck,
+  }.each do |method, klass|
+    it "returns an initialized #{method} object" do
+      expect(subject.public_send(method)).to be_a klass
+      expect(subject.public_send(method).zone_id).to eq zone_identifier
+    end
   end
 end

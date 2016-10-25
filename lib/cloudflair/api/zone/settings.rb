@@ -12,24 +12,15 @@ module Cloudflair
       @zone_id = zone_id
     end
 
-    def development_mode
-      Cloudflair::DevelopmentMode.new @zone_id
-    end
-
-    def advanced_ddos
-      Cloudflair::AdvancedDdos.new @zone_id
-    end
-
-    def always_online
-      Cloudflair::AlwaysOnline.new @zone_id
-    end
-
-    def browser_cache_ttl
-      Cloudflair::BrowserCacheTtl.new @zone_id
-    end
-
-    def browser_check
-      Cloudflair::BrowserCheck.new zone_id
+    { advanced_ddos: Cloudflair::AdvancedDdos,
+      always_online: Cloudflair::AlwaysOnline,
+      browser_cache_ttl: Cloudflair::BrowserCacheTtl,
+      browser_check: Cloudflair::BrowserCheck,
+      development_mode: Cloudflair::DevelopmentMode,
+    }.each do |method, klass|
+      define_method method do
+        klass.new @zone_id
+      end
     end
   end
 end
