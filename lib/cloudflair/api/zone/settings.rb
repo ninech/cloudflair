@@ -27,6 +27,7 @@ require 'cloudflair/api/zone/settings/tls_1_2_only'
 require 'cloudflair/api/zone/settings/tls_1_3'
 require 'cloudflair/api/zone/settings/true_client_ip_header'
 require 'cloudflair/api/zone/settings/waf'
+require 'cloudflair/api/zone/settings/websockets'
 
 module Cloudflair
   class Settings
@@ -65,6 +66,7 @@ module Cloudflair
       tls_1_3: Cloudflair::Tls13,
       true_client_ip_header: Cloudflair::TrueClientIpHeader,
       waf: Cloudflair::Waf,
+      websockets: Cloudflair::Websockets,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id
