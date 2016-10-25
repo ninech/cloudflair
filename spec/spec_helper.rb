@@ -30,6 +30,7 @@ require 'cloudflair/api/zone/settings/mirage'
 require 'cloudflair/api/zone/settings/mobile_redirect'
 require 'cloudflair/api/zone/settings/origin_error_page_pass_thru'
 require 'cloudflair/api/zone/settings/polish'
+require 'cloudflair/api/zone/settings/prefetch_preload'
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true

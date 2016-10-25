@@ -25,6 +25,7 @@ describe Cloudflair::Settings do
     mobile_redirect: Cloudflair::MobileRedirect,
     origin_error_page_pass_thru: Cloudflair::OriginErrorPagePassThru,
     polish: Cloudflair::Polish,
+    prefetch_preload: Cloudflair::PrefetchPreload,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass

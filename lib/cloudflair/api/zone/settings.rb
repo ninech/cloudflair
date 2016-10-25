@@ -14,6 +14,7 @@ require 'cloudflair/api/zone/settings/mirage'
 require 'cloudflair/api/zone/settings/mobile_redirect'
 require 'cloudflair/api/zone/settings/origin_error_page_pass_thru'
 require 'cloudflair/api/zone/settings/polish'
+require 'cloudflair/api/zone/settings/prefetch_preload'
 
 module Cloudflair
   class Settings
@@ -39,6 +40,7 @@ module Cloudflair
       mobile_redirect: Cloudflair::MobileRedirect,
       origin_error_page_pass_thru: Cloudflair::OriginErrorPagePassThru,
       polish: Cloudflair::Polish,
+      prefetch_preload: Cloudflair::PrefetchPreload,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id
