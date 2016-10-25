@@ -9,6 +9,7 @@ require 'cloudflair/api/zone/settings/email_obfuscation'
 require 'cloudflair/api/zone/settings/hotlink_protection'
 require 'cloudflair/api/zone/settings/ip_geolocation'
 require 'cloudflair/api/zone/settings/ipv6'
+require 'cloudflair/api/zone/settings/minify'
 
 module Cloudflair
   class Settings
@@ -29,6 +30,7 @@ module Cloudflair
       hotlink_protection: Cloudflair::HotlinkProtection,
       ip_geolocation: Cloudflair::IpGeolocation,
       ipv6: Cloudflair::Ipv6,
+      minify: Cloudflair::Minify,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id

@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result": {
+    "id": "minify",
+    "value": {
+      "css": "off",
+      "html": "off",
+      "js": "off"
+    },
+    "editable": true,
+    "modified_on": "2014-01-01T05:20:00.12345Z"
+  }
+}
