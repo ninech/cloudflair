@@ -23,6 +23,7 @@ require 'cloudflair/api/zone/settings/server_side_exclude'
 require 'cloudflair/api/zone/settings/sort_query_string_for_cache'
 require 'cloudflair/api/zone/settings/ssl'
 require 'cloudflair/api/zone/settings/tls_client_auth'
+require 'cloudflair/api/zone/settings/tls_1_2_only'
 require 'cloudflair/api/zone/settings/true_client_ip_header'
 
 module Cloudflair
@@ -58,6 +59,7 @@ module Cloudflair
       sort_query_string_for_cache: Cloudflair::SortQueryStringForCache,
       ssl: Cloudflair::Ssl,
       tls_client_auth: Cloudflair::TlsClientAuth,
+      tls_1_2_only: Cloudflair::Tls12Only,
       true_client_ip_header: Cloudflair::TrueClientIpHeader,
     }.each do |method, klass|
       define_method method do

@@ -34,6 +34,7 @@ describe Cloudflair::Settings do
     sort_query_string_for_cache: Cloudflair::SortQueryStringForCache,
     ssl: Cloudflair::Ssl,
     tls_client_auth: Cloudflair::TlsClientAuth,
+    tls_1_2_only: Cloudflair::Tls12Only,
     true_client_ip_header: Cloudflair::TrueClientIpHeader,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
