@@ -26,6 +26,7 @@ require 'cloudflair/api/zone/settings/hotlink_protection'
 require 'cloudflair/api/zone/settings/ip_geolocation'
 require 'cloudflair/api/zone/settings/ipv6'
 require 'cloudflair/api/zone/settings/minify'
+require 'cloudflair/api/zone/settings/mirage'
 require 'cloudflair/api/zone/settings/mobile_redirect'
 
 RSpec.configure do |config|

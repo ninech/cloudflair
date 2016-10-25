@@ -21,6 +21,7 @@ describe Cloudflair::Settings do
     ip_geolocation: Cloudflair::IpGeolocation,
     ipv6: Cloudflair::Ipv6,
     minify: Cloudflair::Minify,
+    mirage: Cloudflair::Mirage,
     mobile_redirect: Cloudflair::MobileRedirect,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
