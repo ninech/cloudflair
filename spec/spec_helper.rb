@@ -21,6 +21,7 @@ require 'cloudflair/api/zone/settings/browser_cache_ttl'
 require 'cloudflair/api/zone/settings/cache_level'
 require 'cloudflair/api/zone/settings/challenge_ttl'
 require 'cloudflair/api/zone/settings/development_mode'
+require 'cloudflair/api/zone/settings/email_obfuscation'
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true

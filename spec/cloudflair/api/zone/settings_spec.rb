@@ -16,6 +16,7 @@ describe Cloudflair::Settings do
     cache_level: Cloudflair::CacheLevel,
     challenge_ttl: Cloudflair::ChallengeTtl,
     development_mode: Cloudflair::DevelopmentMode,
+    email_obfuscation: Cloudflair::EmailObfuscation,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass
