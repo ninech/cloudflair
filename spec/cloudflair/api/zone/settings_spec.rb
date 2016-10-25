@@ -18,6 +18,7 @@ describe Cloudflair::Settings do
     development_mode: Cloudflair::DevelopmentMode,
     email_obfuscation: Cloudflair::EmailObfuscation,
     hotlink_protection: Cloudflair::HotlinkProtection,
+    ip_geolocation: Cloudflair::IpGeolocation,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass

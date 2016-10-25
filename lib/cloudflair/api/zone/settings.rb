@@ -7,6 +7,7 @@ require 'cloudflair/api/zone/settings/challenge_ttl'
 require 'cloudflair/api/zone/settings/development_mode'
 require 'cloudflair/api/zone/settings/email_obfuscation'
 require 'cloudflair/api/zone/settings/hotlink_protection'
+require 'cloudflair/api/zone/settings/ip_geolocation'
 
 module Cloudflair
   class Settings
@@ -25,6 +26,7 @@ module Cloudflair
       development_mode: Cloudflair::DevelopmentMode,
       email_obfuscation: Cloudflair::EmailObfuscation,
       hotlink_protection: Cloudflair::HotlinkProtection,
+      ip_geolocation: Cloudflair::IpGeolocation,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id
