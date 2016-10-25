@@ -31,6 +31,7 @@ describe Cloudflair::Settings do
     security_header: Cloudflair::SecurityHeader,
     security_level: Cloudflair::SecurityLevel,
     server_side_exclude: Cloudflair::ServerSideExclude,
+    sort_query_string_for_cache: Cloudflair::SortQueryStringForCache,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass
