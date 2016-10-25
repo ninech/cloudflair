@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Cloudflair::DevelopmentMode do
+describe Cloudflair::CacheLevel do
   let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
   let(:faraday) do
     Faraday.new(url: 'https://api.cloudflare.com/client/v4/', headers: Cloudflair::Connection.headers) do |faraday|
