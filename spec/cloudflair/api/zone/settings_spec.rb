@@ -26,6 +26,7 @@ describe Cloudflair::Settings do
     origin_error_page_pass_thru: Cloudflair::OriginErrorPagePassThru,
     polish: Cloudflair::Polish,
     prefetch_preload: Cloudflair::PrefetchPreload,
+    response_buffering: Cloudflair::ResponseBuffering,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass
