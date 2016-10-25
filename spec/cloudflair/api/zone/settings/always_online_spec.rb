@@ -14,6 +14,8 @@ describe Cloudflair::AlwaysOnline do
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/always_online.json') }
   let(:url) { "/client/v4/zones/#{zone_identifier}/settings/always_online" }
   let(:subject) { Cloudflair.zone(zone_identifier).settings.always_online }
+  let(:value) { 'on' }
+  let(:new_value) { 'off' }
 
   before do
     faraday_stubs.get(url) do |_env|
@@ -28,24 +30,24 @@ describe Cloudflair::AlwaysOnline do
 
   describe 'fetch values' do
     it 'fetches relevant values' do
-      expect(subject.value).to eq 'on'
+      expect(subject.value).to eq value
       expect(subject.editable).to be true
     end
   end
 
   describe 'put values' do
     before do
-      faraday_stubs.patch(url, 'value' => 'off') do |_env|
+      faraday_stubs.patch(url, 'value' => new_value) do |_env|
         [200, { content_type: 'application/json' }, response_json]
       end
     end
 
     it 'saves the values' do
       expect(faraday).to receive(:patch).and_call_original
-      subject.value = 'off'
+      subject.value = new_value
       subject.save
 
-      expect(subject.value).to eq 'on'
+      expect(subject.value).to eq value
     end
   end
 end

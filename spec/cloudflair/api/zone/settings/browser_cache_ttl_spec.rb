@@ -14,6 +14,8 @@ describe Cloudflair::BrowserCacheTtl do
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/browser_cache_ttl.json') }
   let(:url) { "/client/v4/zones/#{zone_identifier}/settings/browser_cache_ttl" }
   let(:subject) { Cloudflair.zone(zone_identifier).settings.browser_cache_ttl }
+  let(:value) { 14400 }
+  let(:new_value) { 7200 }
 
   before do
     faraday_stubs.get(url) do |_env|
@@ -28,24 +30,24 @@ describe Cloudflair::BrowserCacheTtl do
 
   describe 'fetch values' do
     it 'fetches relevant values' do
-      expect(subject.value).to be 14400
+      expect(subject.value).to be value
       expect(subject.editable).to be true
     end
   end
 
   describe 'put values' do
     before do
-      faraday_stubs.patch(url, 'value' => 7200) do |_env|
+      faraday_stubs.patch(url, 'value' => new_value) do |_env|
         [200, { content_type: 'application/json' }, response_json]
       end
     end
 
     it 'saves the values' do
       expect(faraday).to receive(:patch).and_call_original
-      subject.value = 7200
+      subject.value = new_value
       subject.save
 
-      expect(subject.value).to eq 14400
+      expect(subject.value).to eq value
     end
   end
 end
