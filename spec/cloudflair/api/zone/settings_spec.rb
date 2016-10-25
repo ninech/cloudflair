@@ -27,6 +27,7 @@ describe Cloudflair::Settings do
     polish: Cloudflair::Polish,
     prefetch_preload: Cloudflair::PrefetchPreload,
     response_buffering: Cloudflair::ResponseBuffering,
+    rocket_loader: Cloudflair::RocketLoader,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass

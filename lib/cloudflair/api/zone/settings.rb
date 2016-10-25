@@ -16,6 +16,7 @@ require 'cloudflair/api/zone/settings/origin_error_page_pass_thru'
 require 'cloudflair/api/zone/settings/polish'
 require 'cloudflair/api/zone/settings/prefetch_preload'
 require 'cloudflair/api/zone/settings/response_buffering'
+require 'cloudflair/api/zone/settings/rocket_loader'
 
 module Cloudflair
   class Settings
@@ -43,6 +44,7 @@ module Cloudflair
       polish: Cloudflair::Polish,
       prefetch_preload: Cloudflair::PrefetchPreload,
       response_buffering: Cloudflair::ResponseBuffering,
+      rocket_loader: Cloudflair::RocketLoader,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id
