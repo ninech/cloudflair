@@ -6,6 +6,7 @@ require 'cloudflair/api/zone/settings/cache_level'
 require 'cloudflair/api/zone/settings/challenge_ttl'
 require 'cloudflair/api/zone/settings/development_mode'
 require 'cloudflair/api/zone/settings/email_obfuscation'
+require 'cloudflair/api/zone/settings/hotlink_protection'
 
 module Cloudflair
   class Settings
@@ -22,7 +23,8 @@ module Cloudflair
       cache_level: Cloudflair::CacheLevel,
       challenge_ttl: Cloudflair::ChallengeTtl,
       development_mode: Cloudflair::DevelopmentMode,
-      email_obfuscation: Cloudflair::EmailObfuscation
+      email_obfuscation: Cloudflair::EmailObfuscation,
+      hotlink_protection: Cloudflair::HotlinkProtection,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id

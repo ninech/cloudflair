@@ -17,6 +17,7 @@ describe Cloudflair::Settings do
     challenge_ttl: Cloudflair::ChallengeTtl,
     development_mode: Cloudflair::DevelopmentMode,
     email_obfuscation: Cloudflair::EmailObfuscation,
+    hotlink_protection: Cloudflair::HotlinkProtection,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass
