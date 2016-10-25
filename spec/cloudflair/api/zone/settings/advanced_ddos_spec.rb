@@ -32,4 +32,16 @@ describe Cloudflair::AdvancedDdos do
       expect(subject.editable).to be false
     end
   end
+
+  describe 'put values' do
+    it 'does not save the value' do
+      expect(faraday).to_not receive(:patch)
+
+      expect { subject.value = 'off' }.to raise_error NoMethodError
+
+      subject.save
+
+      expect(subject.value).to eq 'on'
+    end
+  end
 end
