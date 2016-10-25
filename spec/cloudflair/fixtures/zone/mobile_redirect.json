@@ -1,0 +1,15 @@
+{
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result": {
+    "id": "mobile_redirect",
+    "value": {
+      "status": "off",
+      "mobile_subdomain": "m",
+      "strip_uri": false
+    },
+    "editable": true,
+    "modified_on": "2014-01-01T05:20:00.12345Z"
+  }
+}

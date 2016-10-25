@@ -10,6 +10,7 @@ require 'cloudflair/api/zone/settings/hotlink_protection'
 require 'cloudflair/api/zone/settings/ip_geolocation'
 require 'cloudflair/api/zone/settings/ipv6'
 require 'cloudflair/api/zone/settings/minify'
+require 'cloudflair/api/zone/settings/mobile_redirect'
 
 module Cloudflair
   class Settings
@@ -31,6 +32,7 @@ module Cloudflair
       ip_geolocation: Cloudflair::IpGeolocation,
       ipv6: Cloudflair::Ipv6,
       minify: Cloudflair::Minify,
+      mobile_redirect: Cloudflair::MobileRedirect,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id
