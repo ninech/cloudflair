@@ -10,6 +10,7 @@ describe Cloudflair::Settings do
   end
 
   { development_mode: Cloudflair::DevelopmentMode,
+    cache_level: Cloudflair::CacheLevel,
     always_online: Cloudflair::AlwaysOnline,
     advanced_ddos: Cloudflair::AdvancedDdos,
     browser_cache_ttl: Cloudflair::BrowserCacheTtl,
