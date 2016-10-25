@@ -9,12 +9,12 @@ describe Cloudflair::Settings do
     expect(subject.zone_id).to eq zone_identifier
   end
 
-  { development_mode: Cloudflair::DevelopmentMode,
-    cache_level: Cloudflair::CacheLevel,
-    always_online: Cloudflair::AlwaysOnline,
+  { always_online: Cloudflair::AlwaysOnline,
     advanced_ddos: Cloudflair::AdvancedDdos,
     browser_cache_ttl: Cloudflair::BrowserCacheTtl,
     browser_check: Cloudflair::BrowserCheck,
+    cache_level: Cloudflair::CacheLevel,
+    development_mode: Cloudflair::DevelopmentMode,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass
