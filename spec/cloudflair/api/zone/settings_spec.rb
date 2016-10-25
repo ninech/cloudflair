@@ -14,6 +14,7 @@ describe Cloudflair::Settings do
     browser_cache_ttl: Cloudflair::BrowserCacheTtl,
     browser_check: Cloudflair::BrowserCheck,
     cache_level: Cloudflair::CacheLevel,
+    challenge_ttl: Cloudflair::ChallengeTtl,
     development_mode: Cloudflair::DevelopmentMode,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
