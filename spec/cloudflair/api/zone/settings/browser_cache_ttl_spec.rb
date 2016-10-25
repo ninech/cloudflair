@@ -11,9 +11,11 @@ describe Cloudflair::BrowserCacheTtl do
   end
 
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
-  let(:response_json) { File.read('spec/cloudflair/fixtures/zone/browser_cache_ttl.json') }
-  let(:url) { "/client/v4/zones/#{zone_identifier}/settings/browser_cache_ttl" }
-  let(:subject) { Cloudflair.zone(zone_identifier).settings.browser_cache_ttl }
+  let(:response_json) { File.read("spec/cloudflair/fixtures/zone/#{setting_identifier}.json") }
+  let(:url) { "/client/v4/zones/#{zone_identifier}/settings/#{setting_identifier}" }
+  let(:subject) { Cloudflair.zone(zone_identifier).settings.public_send setting_identifier }
+
+  let(:setting_identifier) { 'browser_cache_ttl' }
   let(:value) { 14400 }
   let(:new_value) { 7200 }
 
@@ -30,6 +32,7 @@ describe Cloudflair::BrowserCacheTtl do
 
   describe 'fetch values' do
     it 'fetches relevant values' do
+      expect(subject.id).to eq setting_identifier
       expect(subject.value).to be value
       expect(subject.editable).to be true
     end

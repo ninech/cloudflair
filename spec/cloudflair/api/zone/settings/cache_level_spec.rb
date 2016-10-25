@@ -11,9 +11,11 @@ describe Cloudflair::CacheLevel do
   end
 
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
-  let(:response_json) { File.read('spec/cloudflair/fixtures/zone/cache_level.json') }
-  let(:url) { "/client/v4/zones/#{zone_identifier}/settings/cache_level" }
-  let(:subject) { Cloudflair.zone(zone_identifier).settings.cache_level }
+  let(:response_json) { File.read("spec/cloudflair/fixtures/zone/#{setting_identifier}.json") }
+  let(:url) { "/client/v4/zones/#{zone_identifier}/settings/#{setting_identifier}" }
+  let(:subject) { Cloudflair.zone(zone_identifier).settings.public_send setting_identifier }
+
+  let(:setting_identifier) { 'cache_level' }
   let(:value) { 'aggressive' }
   let(:new_value) { 'simplified' }
 
@@ -30,6 +32,7 @@ describe Cloudflair::CacheLevel do
 
   describe 'fetch values' do
     it 'fetches relevant values' do
+      expect(subject.id).to eq setting_identifier
       expect(subject.value).to eq value
       expect(subject.editable).to be true
     end
