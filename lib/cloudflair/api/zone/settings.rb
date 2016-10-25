@@ -17,6 +17,7 @@ require 'cloudflair/api/zone/settings/polish'
 require 'cloudflair/api/zone/settings/prefetch_preload'
 require 'cloudflair/api/zone/settings/response_buffering'
 require 'cloudflair/api/zone/settings/rocket_loader'
+require 'cloudflair/api/zone/settings/security_header'
 
 module Cloudflair
   class Settings
@@ -45,6 +46,7 @@ module Cloudflair
       prefetch_preload: Cloudflair::PrefetchPreload,
       response_buffering: Cloudflair::ResponseBuffering,
       rocket_loader: Cloudflair::RocketLoader,
+      security_header: Cloudflair::SecurityHeader,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id
