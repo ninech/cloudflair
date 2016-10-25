@@ -18,6 +18,7 @@ require 'cloudflair/api/zone/settings/prefetch_preload'
 require 'cloudflair/api/zone/settings/response_buffering'
 require 'cloudflair/api/zone/settings/rocket_loader'
 require 'cloudflair/api/zone/settings/security_header'
+require 'cloudflair/api/zone/settings/security_level'
 
 module Cloudflair
   class Settings
@@ -47,6 +48,7 @@ module Cloudflair
       response_buffering: Cloudflair::ResponseBuffering,
       rocket_loader: Cloudflair::RocketLoader,
       security_header: Cloudflair::SecurityHeader,
+      security_level: Cloudflair::SecurityLevel,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id
