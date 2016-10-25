@@ -19,6 +19,7 @@ require 'cloudflair/api/zone/settings/response_buffering'
 require 'cloudflair/api/zone/settings/rocket_loader'
 require 'cloudflair/api/zone/settings/security_header'
 require 'cloudflair/api/zone/settings/security_level'
+require 'cloudflair/api/zone/settings/server_side_exclude'
 
 module Cloudflair
   class Settings
@@ -49,6 +50,7 @@ module Cloudflair
       rocket_loader: Cloudflair::RocketLoader,
       security_header: Cloudflair::SecurityHeader,
       security_level: Cloudflair::SecurityLevel,
+      server_side_exclude: Cloudflair::ServerSideExclude,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id

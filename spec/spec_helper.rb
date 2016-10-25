@@ -35,6 +35,7 @@ require 'cloudflair/api/zone/settings/response_buffering'
 require 'cloudflair/api/zone/settings/rocket_loader'
 require 'cloudflair/api/zone/settings/security_header'
 require 'cloudflair/api/zone/settings/security_level'
+require 'cloudflair/api/zone/settings/server_side_exclude'
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true

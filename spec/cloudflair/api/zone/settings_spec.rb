@@ -30,6 +30,7 @@ describe Cloudflair::Settings do
     rocket_loader: Cloudflair::RocketLoader,
     security_header: Cloudflair::SecurityHeader,
     security_level: Cloudflair::SecurityLevel,
+    server_side_exclude: Cloudflair::ServerSideExclude,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass
