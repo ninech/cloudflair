@@ -35,6 +35,7 @@ describe Cloudflair::Settings do
     ssl: Cloudflair::Ssl,
     tls_client_auth: Cloudflair::TlsClientAuth,
     tls_1_2_only: Cloudflair::Tls12Only,
+    tls_1_3: Cloudflair::Tls13,
     true_client_ip_header: Cloudflair::TrueClientIpHeader,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
