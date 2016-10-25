@@ -21,6 +21,7 @@ require 'cloudflair/api/zone/settings/security_header'
 require 'cloudflair/api/zone/settings/security_level'
 require 'cloudflair/api/zone/settings/server_side_exclude'
 require 'cloudflair/api/zone/settings/sort_query_string_for_cache'
+require 'cloudflair/api/zone/settings/ssl'
 
 module Cloudflair
   class Settings
@@ -53,6 +54,7 @@ module Cloudflair
       security_level: Cloudflair::SecurityLevel,
       server_side_exclude: Cloudflair::ServerSideExclude,
       sort_query_string_for_cache: Cloudflair::SortQueryStringForCache,
+      ssl: Cloudflair::Ssl,
     }.each do |method, klass|
       define_method method do
         klass.new @zone_id
