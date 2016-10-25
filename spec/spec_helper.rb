@@ -24,6 +24,7 @@ require 'cloudflair/api/zone/settings/development_mode'
 require 'cloudflair/api/zone/settings/email_obfuscation'
 require 'cloudflair/api/zone/settings/hotlink_protection'
 require 'cloudflair/api/zone/settings/ip_geolocation'
+require 'cloudflair/api/zone/settings/ipv6'
 
 RSpec.configure do |config|
   config.run_all_when_everything_filtered = true

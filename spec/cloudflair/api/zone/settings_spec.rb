@@ -19,6 +19,7 @@ describe Cloudflair::Settings do
     email_obfuscation: Cloudflair::EmailObfuscation,
     hotlink_protection: Cloudflair::HotlinkProtection,
     ip_geolocation: Cloudflair::IpGeolocation,
+    ipv6: Cloudflair::Ipv6,
   }.each do |method, klass|
     it "returns an initialized #{method} object" do
       expect(subject.public_send(method)).to be_a klass
