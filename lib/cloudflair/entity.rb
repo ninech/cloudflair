@@ -123,6 +123,8 @@ module Cloudflair
     def method_missing(name_as_symbol, *args, &block)
       name = normalize_accessor name_as_symbol
 
+      return data if :_raw_data! == name_as_symbol
+
       if name.end_with?('=')
         if patchable_fields.include?(name[0..-2])
           dirty_data[name[0..-2]] = args[0]
@@ -141,13 +143,15 @@ module Cloudflair
       return arrayify(name, array_object_fields[name]) if array_object_fields.keys.include? name
 
       return dirty_data[name] if dirty_data.keys.include? name
-      return data[name] if data.keys.include? name
+      return data[name] if data.is_a?(Hash) && data.keys.include?(name)
 
       super
     end
 
     def respond_to_missing?(name_as_symbol, *args)
       name = normalize_accessor name_as_symbol
+
+      return true if :_raw_data! == name_as_symbol
 
       return true if name.end_with?('=') && patchable_fields.include?(name[0..-2])
       return true if name.end_with?('!') && data.keys.include?(name[0..-2])
@@ -156,7 +160,7 @@ module Cloudflair
       return true if array_object_fields.keys.include? name
 
       return true if dirty_data.keys.include? name
-      return true if data.keys.include? name
+      return true if data.is_a?(Hash) && data.keys.include?(name)
 
       super
     end

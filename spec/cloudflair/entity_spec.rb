@@ -50,31 +50,32 @@ describe Cloudflair::Entity do
       faraday.response :json, content_type: /\bjson$/
     end
   end
+  let(:raw_data) do
+    {
+      'name' => 'Beat',
+      'boolean' => true,
+      'number' => 1,
+      'float_number' => 1.2,
+      'date' => '2014-05-28T18:46:18.764425Z',
+      'an_object' => {
+        'key' => 'value',
+        'second' => 2
+      },
+      'an_array' => [],
+      'an_object_array' => [
+        {
+          'name' => 'obj1'
+        }, {
+          'name' => 'obj2'
+        }, {
+          'name' => 'obj3'
+        }
+      ]
+    }
+  end
   let(:response_json) do
-    result_json = <<-json
-      {
-        "name": "Beat",
-        "boolean": true,
-        "number": 1,
-        "float_number": 1.2,
-        "date": "2014-05-28T18:46:18.764425Z",
-        "an_object": {
-          "key": "value",
-          "second": 2
-        },
-        "an_array": [],
-        "an_object_array": [{
-          "name": "obj1"
-        }, {
-          "name": "obj2"
-        }, {
-          "name": "obj3"
-        }]
-      }
-    json
-
     '{"success":true,"errors":[],"messages":[],"result":' +
-      result_json +
+      JSON.generate(raw_data) +
       ',"result_info":{"page":1,"per_page":20,"count":1,"total_count":2000}}'
   end
   let(:url) { '/client/v4/tests/42' }
@@ -128,6 +129,10 @@ describe Cloudflair::Entity do
     it 'returns an Array' do
       expect(subject.an_array).to be_a Array
       expect(subject.an_array.length).to be 0
+    end
+
+    it 'returns the raw data' do
+      expect(subject._raw_data!).to eq raw_data
     end
   end
 
