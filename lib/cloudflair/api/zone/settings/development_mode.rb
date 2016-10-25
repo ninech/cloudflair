@@ -12,5 +12,9 @@ module Cloudflair
     def initialize(zone_id)
       @zone_id = zone_id
     end
+
+    def time_remaining
+      data.fetch('time_remaining', 0)
+    end
   end
 end
