@@ -95,11 +95,15 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## Roadmap
 
-* Pull Zone Information
-* Zone Name to Zone ID Lookup
-* Developer Mode, Cache Purge, Selective Cache Purge
-* Airbrake error reporting
+* ~~Pull Zone Information~~ ✅
+* ~~Zone Name to Zone ID Lookup~~ ✅ 
+* ~~Developer Mode, Cache Purge, Selective Cache Purge~~ ✅
+* ~~Airbrake error reporting~~ ❌ (It's the responsibility of the application, not the Gem)
+* Full read-only `/zones` API support
 * Full API support
+
+### Whishlist
+
 * Metrics reporting
 * Rate Limit Tracking
 * (Global) Rate Limit Tracking (redis?)
