@@ -10,6 +10,10 @@ describe Cloudflair::Zone, 'dns_record things' do
     end
   end
 
+  before do
+    allow(Faraday).to receive(:new).and_return faraday
+  end
+
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:url) { "/client/v4/zones/#{zone_identifier}/dns_records" }
   subject { Cloudflair.zone zone_identifier }
@@ -20,7 +24,7 @@ describe Cloudflair::Zone, 'dns_record things' do
     end
   end
 
-  describe '#dns_record=' do
+  describe '#new_dns_record=' do
     let(:new_dns_record_data) { { type: 'A', name: 'example.com', content: '127.0.0.1' } }
     let(:response_json) { File.read('spec/cloudflair/fixtures/zone/dns_record.json') }
     let(:the_new_dns_record) { subject.new_dns_record(new_dns_record_data) }
@@ -29,7 +33,6 @@ describe Cloudflair::Zone, 'dns_record things' do
       faraday_stubs.post(url, new_dns_record_data) do |_env|
         [200, { content_type: 'application/json' }, response_json]
       end
-      allow(Faraday).to receive(:new).and_return faraday
     end
 
     it 'returns a new DnsRecord instance' do
@@ -55,7 +58,6 @@ describe Cloudflair::Zone, 'dns_record things' do
       faraday_stubs.get(url) do |_env|
         [200, { content_type: 'application/json' }, response_json]
       end
-      allow(Faraday).to receive(:new).and_return faraday
     end
 
     it 'calls the other url' do
