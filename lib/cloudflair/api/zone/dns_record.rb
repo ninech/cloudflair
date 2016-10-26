@@ -5,6 +5,7 @@ module Cloudflair
     include Cloudflair::Entity
 
     attr_reader :zone_id, :record_id
+    deletable true
     path 'zones/:zone_id/dns_records/:record_id'
 
     def initialize(zone_id, record_id)

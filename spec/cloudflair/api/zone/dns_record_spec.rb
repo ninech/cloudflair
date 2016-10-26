@@ -40,4 +40,20 @@ describe Cloudflair::DnsRecord do
     expect(subject.reload).to be subject
     expect(subject.reload).to be subject
   end
+
+  describe '#delete' do
+    let(:response_json) { File.read('spec/cloudflair/fixtures/zone/dns_record_deleted.json') }
+
+    before do
+      faraday_stubs.delete(url) do |_env|
+        [200, { content_type: 'application/json' }, response_json]
+      end
+    end
+
+    it 'performs the delete' do
+      expect(faraday).to receive(:delete).once.and_call_original
+
+      subject.delete
+    end
+  end
 end
