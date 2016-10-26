@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'cloudflair'
+
+Cloudflair.configure do |c|
+  c.cloudflare.auth.key = ENV['AUTH_KEY']
+  c.cloudflare.auth.email = ENV['AUTH_MAIL']
+  c.faraday.logger = :detailed_logger
+end
+
+def z
+  @z ||= Cloudflair.zone ENV['CF_ZONE']
+end
+
+#p.everything true
+
+require 'irb'
+IRB.start
