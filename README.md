@@ -55,14 +55,24 @@ This gem is organized along the URL schema of CloudFlare.
 ```ruby
 require 'cloudflair'
 
-# https://api.cloudflare.com/client/v4/zones/cd7d068de3012345da9420df9514dad0
+# GET https://api.cloudflare.com/client/v4/zones/cd7d068de3012345da9420df9514dad0
 Cloudflair.zone('023e105f4ecef8ad9ca31a8372d0c353').name
-# :=> "blog.example.com"
+# => "blog.example.com"
 
-# https://api.cloudflare.com/client/v4/zones/cd7d068de3012345da9420df9514dad0/settings/development_mode
+# GET https://api.cloudflare.com/client/v4/zones/cd7d068de3012345da9420df9514dad0/settings/development_mode
 Cloudflair.zone('023e105f4ecef8ad9ca31a8372d0c353').settings.development_mode.value
-# :=> "on"
-# :=> "off"
+# => "on"
+# => "off"
+
+# PATCH https://api.cloudflare.com/client/v4/zones/cd7d068de3012345da9420df9514dad0/settings/development_mode
+# {"value"="on"}
+Cloudflair.zone('023e105f4ecef8ad9ca31a8372d0c353').settings.development_mode.tap do |dm|
+  dm.value = 'on'
+  dm.save
+end
+
+# GET https://api.cloudflare.com/client/v4/zones/023e105f4ecef8ad9ca31a8372d0c353/dns_records/372e67954025e0ba6aaa6d586b9e0b59
+Cloudflair.zone('023e105f4ecef8ad9ca31a8372d0c353').dns_record('372e67954025e0ba6aaa6d586b9e0b59').name
 ```
 
 You can use any field that Cloudflare's API returns. If a field is covered by some internal field, use `_field`. 
