@@ -13,7 +13,7 @@ describe Cloudflair::Zone do
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/details.json') }
   let(:url) { "/client/v4/zones/#{zone_identifier}" }
-  let(:subject) { Cloudflair.zone zone_identifier }
+  subject { Cloudflair.zone zone_identifier }
 
   before do
     faraday_stubs.get(url) do |_env|
@@ -26,12 +26,16 @@ describe Cloudflair::Zone do
     expect(subject.zone_id).to eq zone_identifier
   end
 
-  it 'returns the settings object' do
+  it 'returns the settings instance' do
     expect(subject.settings).to be_a Cloudflair::Settings
   end
 
-  it 'returns the PurgeCache object' do
+  it 'returns the PurgeCache instance' do
     expect(subject.purge_cache).to be_a Cloudflair::PurgeCache
+  end
+
+  it 'returns an AvailablePlan instance' do
+    expect(subject.available_plan('abcdef')).to be_a Cloudflair::AvailablePlan
   end
 
   describe 'fetch values' do
@@ -148,7 +152,7 @@ describe Cloudflair::Zone do
     end
   end
 
-  describe 'send values' do
+  describe '#update' do
     before do
       faraday_stubs.patch(url, 'paused' => true) do |_env|
         [200, { content_type: 'application/json' }, response_json]
@@ -178,7 +182,7 @@ describe Cloudflair::Zone do
     end
   end
 
-  describe 'delete entities' do
+  describe '#delete' do
     let(:response_json) { File.read('spec/cloudflair/fixtures/zone/delete.json') }
     before do
       faraday_stubs.delete(url) do |_env|

@@ -14,7 +14,7 @@ describe Cloudflair::AvailablePlan do
   let(:plan_identifier) { 'e592fd9519420ba7405e1307bff33214' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/plan.json') }
   let(:url) { "/client/v4/zones/#{zone_identifier}/available_plans/#{plan_identifier}" }
-  let(:subject) { Cloudflair::AvailablePlan.new zone_identifier, plan_identifier }
+  subject { Cloudflair.zone(zone_identifier).available_plan(plan_identifier) }
 
   before do
     faraday_stubs.get(url) do |_env|
