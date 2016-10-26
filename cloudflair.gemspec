@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = %w(christian.maeder@nine.ch)
 
   spec.summary       = "Wrapper to CloudFlare's v4 REST API."
-  spec.description   = 'Cloudflair aims to provide easy access to CloudFlares public API.'
+  spec.description   = "Cloudflair aims to provide easy access to CloudFlare's public API."
   spec.homepage      = 'https://github.com/ninech/cloudflair'
   spec.license       = 'MIT'
 
