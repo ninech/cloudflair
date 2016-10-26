@@ -1,8 +1,8 @@
 require 'cloudflair/api/zone/available_plan'
 require 'cloudflair/api/zone/available_rate_plan'
-require 'cloudflair/api/zone/dns_record'
 require 'cloudflair/api/zone/purge_cache'
 require 'cloudflair/api/zone/settings'
+require 'cloudflair/api/zone__dns_records'
 require 'cloudflair/entity'
 
 module Cloudflair
@@ -44,20 +44,6 @@ module Cloudflair
 
     def available_plan(plan_id)
       Cloudflair::AvailablePlan.new zone_id, plan_id
-    end
-
-    def dns_records(filter={})
-      raw_plans = response connection.get("#{path}/dns_records", filter)
-
-      raw_plans.map do |raw_record|
-        zone = dns_record raw_record['id']
-        zone.data = raw_record
-        zone
-      end
-    end
-
-    def dns_record(record_id)
-      Cloudflair::DnsRecord.new zone_id, record_id
     end
   end
 end

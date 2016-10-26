@@ -38,10 +38,6 @@ describe Cloudflair::Zone do
     expect(subject.available_plan('abcdef')).to be_a Cloudflair::AvailablePlan
   end
 
-  it 'returns a DnsRecord instance' do
-    expect(subject.dns_record('abcdef')).to be_a Cloudflair::DnsRecord
-  end
-
   describe 'fetch values' do
     it 'fetches the data when asked to' do
       expect(faraday).to receive(:get).twice.and_call_original
@@ -152,40 +148,6 @@ describe Cloudflair::Zone do
         expect(faraday).to receive(:get).once.and_call_original
 
         expect(subject.owner.owner_type).to eq 'user'
-      end
-    end
-
-    context '#dns_records' do
-      let(:url) { "/client/v4/zones/#{zone_identifier}/dns_records" }
-      let(:response_json) { File.read('spec/cloudflair/fixtures/zone/dns_records.json') }
-      let(:dns_records) { subject.dns_records }
-
-      it 'calls the other url' do
-        expect(faraday).to receive(:get).once.and_call_original
-
-        dns_records
-      end
-
-      it 'returns the correct types' do
-        expect(dns_records).to be_a Array
-        dns_records.each do |plan|
-          expect(plan).to be_a Cloudflair::DnsRecord
-        end
-      end
-
-      it 'returns the correct amount' do
-        expect(dns_records.length).to be 1
-      end
-
-      it 'returns the correct values' do
-        dns_record = dns_records[0]
-        expect(dns_record.id).to eq '372e67954025e0ba6aaa6d586b9e0b59'
-        expect(dns_record.type).to eq 'A'
-        expect(dns_record.content).to eq '1.2.3.4'
-        expect(dns_record.proxiable).to be true
-        expect(dns_record.ttl).to be 120
-        expect(dns_record.data).to be_a Hash
-        expect(dns_record.data.empty?).to be true
       end
     end
   end
