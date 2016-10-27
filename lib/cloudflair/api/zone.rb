@@ -2,13 +2,15 @@ require 'cloudflair/api/zone/available_plan'
 require 'cloudflair/api/zone/available_rate_plan'
 require 'cloudflair/api/zone/purge_cache'
 require 'cloudflair/api/zone/settings'
-require 'cloudflair/api/zone__dns_records'
-require 'cloudflair/api/zone__available_plans'
 require 'cloudflair/entity'
 
 module Cloudflair
   class Zone
     include Cloudflair::Entity
+
+    require 'cloudflair/api/zone__dns_records'
+    require 'cloudflair/api/zone__available_plans'
+    require 'cloudflair/api/zone__railguns'
 
     attr_reader :zone_id
 
