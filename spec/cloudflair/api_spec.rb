@@ -32,15 +32,6 @@ describe Cloudflair do
   end
 
   describe '#zones' do
-    let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
-    let(:faraday) do
-      Faraday.new(url: 'https://api.cloudflare.com/client/v4/', headers: Cloudflair::Connection.headers) do |faraday|
-        faraday.adapter :test, faraday_stubs
-        faraday.request :json
-        faraday.response :json, content_type: /\bjson$/
-      end
-    end
-
     let(:response_json) { File.read('spec/cloudflair/fixtures/zones.json') }
     let(:subject) { Cloudflair.zone zone_identifier }
     let(:expected_params) { {} }

@@ -1,6 +1,7 @@
 require 'faraday'
 require 'faraday_middleware'
 require 'faraday/detailed_logger'
+require 'cloudflair/error/cloudflair_error'
 
 module Cloudflair
   class Connection
@@ -13,11 +14,13 @@ module Cloudflair
     def self.headers
       headers = {}
       cloudflare_auth_config = Cloudflair.config.cloudflare.auth
-      if cloudflare_auth_config.user_service_key.nil?
+      if !(cloudflare_auth_config.key.nil? || cloudflare_auth_config.email.nil?)
         headers['X-Auth-Key'] = cloudflare_auth_config.key
         headers['X-Auth-Email'] = cloudflare_auth_config.email
-      else
+      elsif !cloudflare_auth_config.user_service_key.nil?
         headers['X-Auth-User-Service-Key'] = cloudflare_auth_config.user_service_key
+      else
+        raise CloudflairError, 'Neither email & key nor user_service_key have been defined.'
       end
       headers
     end

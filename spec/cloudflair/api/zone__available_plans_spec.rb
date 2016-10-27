@@ -1,15 +1,6 @@
 require 'spec_helper'
 
 describe Cloudflair::Zone, 'available_plans things' do
-  let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
-  let(:faraday) do
-    Faraday.new(url: 'https://api.cloudflare.com/client/v4/', headers: Cloudflair::Connection.headers) do |faraday|
-      faraday.adapter :test, faraday_stubs
-      faraday.request :json
-      faraday.response :json, content_type: /\bjson$/
-    end
-  end
-
   before do
     allow(Faraday).to receive(:new).and_return faraday
   end
