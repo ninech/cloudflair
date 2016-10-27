@@ -1,3 +1,4 @@
+require 'cloudflair/api/zone/analytics'
 require 'cloudflair/api/zone/available_plan'
 require 'cloudflair/api/zone/available_rate_plan'
 require 'cloudflair/api/zone/purge_cache'
@@ -33,6 +34,10 @@ module Cloudflair
 
     def available_rate_plans
       Cloudflair::AvailableRatePlan.new zone_id
+    end
+
+    def analytics
+      Cloudflair::Analytics.new zone_id
     end
   end
 end

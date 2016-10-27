@@ -25,6 +25,10 @@ describe Cloudflair::Zone do
     expect(subject.purge_cache).to be_a Cloudflair::PurgeCache
   end
 
+  it 'returns the Analytics instance' do
+    expect(subject.analytics).to be_a Cloudflair::Analytics
+  end
+
   describe 'fetch values' do
     it 'fetches the data when asked to' do
       expect(faraday).to receive(:get).twice.and_call_original
