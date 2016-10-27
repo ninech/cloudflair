@@ -213,12 +213,19 @@ module Cloudflair
     end
 
     def hash_to_object(hash)
-      objectified = Class.new
+      objectified = (Class.new).new
       hash.each do |k, v|
-        objectified.instance_variable_set("@#{k}", v)
-        objectified.class.send(:define_method, k, proc { self.instance_variable_get("@#{k}") })
+        variable_name = sanitize_variable_name(k)
+        variable_name = "_#{variable_name}" if objectified.methods.map(&:to_s).include?(variable_name)
+
+        objectified.instance_variable_set("@#{variable_name}", v)
+        objectified.class.send :define_method, variable_name, proc { self.instance_variable_get("@#{variable_name}") }
       end
       objectified
+    end
+
+    def sanitize_variable_name(raw_name)
+      raw_name.gsub /[^a-zA-Z0-9_]/, '_'
     end
 
     def arrayify(name, klass_or_proc=nil)
