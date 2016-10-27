@@ -16,6 +16,18 @@ module Cloudflair
       Cloudflair::Connection.new
     end
 
+    def hash_to_object(hash)
+      objectified = (Class.new).new
+      hash.each do |k, v|
+        variable_name = sanitize_variable_name(k)
+        variable_name = "_#{variable_name}" if objectified.methods.map(&:to_s).include?(variable_name)
+
+        objectified.instance_variable_set("@#{variable_name}", v)
+        objectified.class.send :define_method, variable_name, proc { self.instance_variable_get("@#{variable_name}") }
+      end
+      objectified
+    end
+
     private
 
     def read(response)
@@ -58,6 +70,10 @@ module Cloudflair
       else
         fail Cloudflair::CloudflairError, "#{status} Request Error"
       end
+    end
+
+    def sanitize_variable_name(raw_name)
+      raw_name.gsub /[^a-zA-Z0-9_]/, '_'
     end
   end
 end

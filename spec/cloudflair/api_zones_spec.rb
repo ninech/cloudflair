@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Cloudflair do
+describe Cloudflair, 'zones' do
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
 
   describe '#zone' do
@@ -33,7 +33,6 @@ describe Cloudflair do
 
   describe '#zones' do
     let(:response_json) { File.read('spec/cloudflair/fixtures/zones.json') }
-    let(:subject) { Cloudflair.zone zone_identifier }
     let(:expected_params) { {} }
     let(:url) { '/client/v4/zones' }
 
@@ -52,11 +51,11 @@ describe Cloudflair do
       it 'calls the remote side' do
         expect(faraday).to receive(:get).and_call_original
 
-        expect(Cloudflair.zones.length).to be 1
+        expect(subject.zones.length).to be 1
       end
 
       it 'returns an array of Zones' do
-        zones = Cloudflair.zones
+        zones = subject.zones
         expect(zones).to be_a Array
 
         zones.each do |zone|
@@ -67,14 +66,14 @@ describe Cloudflair do
       it 'returned Zones are pre-populated' do
         expect(faraday).to receive(:get).once.and_call_original
 
-        expect(Cloudflair.zones[0].name).to eq('example.com')
+        expect(subject.zones[0].name).to eq('example.com')
       end
 
       context 'no results' do
         let(:response_json) { File.read('spec/cloudflair/fixtures/no_zones.json') }
 
         it 'returns an empty Array' do
-          zones = Cloudflair.zones
+          zones = subject.zones
           expect(zones).to be_a Array
           expect(zones.length).to be 0
         end
@@ -88,7 +87,7 @@ describe Cloudflair do
         it 'calls the remote side with the query params' do
           expect(faraday).to receive(:get).and_call_original
 
-          Cloudflair.zones name: 'Hello'
+          subject.zones name: 'Hello'
         end
       end
       context 'all combined' do
@@ -99,7 +98,7 @@ describe Cloudflair do
         it 'calls the remote side with the query params' do
           expect(faraday).to receive(:get).and_call_original
 
-          Cloudflair.zones name: 'example.com',
+          subject.zones name: 'example.com',
                            status: 'active',
                            page: 1,
                            per_page: 20,

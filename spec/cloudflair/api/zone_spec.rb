@@ -135,7 +135,7 @@ describe Cloudflair::Zone do
       expect(subject.paused).to be false
     end
 
-    it 'updates the value and sets PATCH to the server' do
+    it 'updates the value and sends PATCH to the server' do
       expect(faraday).to receive(:patch).and_call_original
 
       expect(subject.update(paused: true)).to be subject
