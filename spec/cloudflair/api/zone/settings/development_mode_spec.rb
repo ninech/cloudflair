@@ -54,7 +54,9 @@ describe Cloudflair::DevelopmentMode do
     end
 
     context 'when the development mode was never on' do
-      let(:response_json) { File.read('spec/cloudflair/fixtures/zone/settings/development_mode_without_time_remaining.json') }
+      let(:response_json) do
+        File.read('spec/cloudflair/fixtures/zone/settings/development_mode_without_time_remaining.json')
+      end
 
       it { is_expected.to eq 0 }
     end

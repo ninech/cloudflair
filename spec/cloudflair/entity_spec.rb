@@ -59,18 +59,14 @@ describe Cloudflair::Entity do
       'date' => '2014-05-28T18:46:18.764425Z',
       'an_object' => {
         'key' => 'value',
-        'second' => 2
+        'second' => 2,
       },
       'an_array' => [],
       'an_object_array' => [
-        {
-          'name' => 'obj1'
-        }, {
-          'name' => 'obj2'
-        }, {
-          'name' => 'obj3'
-        }
-      ]
+        { 'name' => 'obj1' },
+        { 'name' => 'obj2' },
+        { 'name' => 'obj3' },
+      ],
     }
   end
   let(:response_json) do

@@ -99,11 +99,11 @@ describe Cloudflair, 'zones' do
           expect(faraday).to receive(:get).and_call_original
 
           subject.zones name: 'example.com',
-                           status: 'active',
-                           page: 1,
-                           per_page: 20,
-                           order: 'desc',
-                           match: 'all'
+                        status: 'active',
+                        page: 1,
+                        per_page: 20,
+                        order: 'desc',
+                        match: 'all'
         end
       end
     end

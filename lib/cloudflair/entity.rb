@@ -65,18 +65,23 @@ module Cloudflair
         if fields_to_class_map.nil? || fields_to_class_map.empty?
           @array_object_fields = {}
         else
-          fields_map = {}
-          fields_to_class_map.each do |field|
-            if field.is_a?(Hash)
-              fields_to_class_map[0].each do |field, klass_or_proc|
-                fields_map[field.to_s] = klass_or_proc
-              end
-            else
-              fields_map[field.to_s] = nil
-            end
-          end
+          fields_map = turn_all_items_into_a_single_hash(fields_to_class_map)
           @array_object_fields = fields_map
         end
+      end
+
+      def turn_all_items_into_a_single_hash(fields_to_class_map)
+        fields_map = {}
+        fields_to_class_map.each do |field_definition|
+          if field_definition.is_a?(Hash)
+            fields_to_class_map[0].each do |field, klass_or_proc|
+              fields_map[field.to_s] = klass_or_proc
+            end
+          else
+            fields_map[field_definition.to_s] = nil
+          end
+        end
+        fields_map
       end
     end
 
@@ -211,7 +216,8 @@ module Cloudflair
     def objectify(name)
       hash_to_object data[name]
     end
-    def arrayify(name, klass_or_proc=nil)
+
+    def arrayify(name, klass_or_proc = nil)
       data[name].map do |data|
         if klass_or_proc.nil?
           hash_to_object data

@@ -2,7 +2,7 @@ require 'cloudflair/api/zone/dns_record'
 
 module Cloudflair
   class Zone
-    def dns_records(filter={})
+    def dns_records(filter = {})
       raw_records = response connection.get("#{path}/dns_records", filter)
 
       raw_records.map { |raw_record| build_dns_record(raw_record) }

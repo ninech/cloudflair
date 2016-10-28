@@ -9,7 +9,8 @@ describe Cloudflair::Settings do
     expect(subject.zone_id).to eq zone_identifier
   end
 
-  { always_online: Cloudflair::AlwaysOnline,
+  {
+    always_online: Cloudflair::AlwaysOnline,
     advanced_ddos: Cloudflair::AdvancedDdos,
     browser_cache_ttl: Cloudflair::BrowserCacheTtl,
     browser_check: Cloudflair::BrowserCheck,

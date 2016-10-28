@@ -18,7 +18,5 @@ if ENV['CF_ZONE']
   end
 end
 
-#p.everything true
-
 require 'irb'
 IRB.start

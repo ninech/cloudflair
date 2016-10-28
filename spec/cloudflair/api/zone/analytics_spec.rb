@@ -26,8 +26,8 @@ describe Cloudflair::DnsRecord do
     it 'does not cache the response' do
       expect(faraday).to receive(:get).twice.and_call_original
 
-      a=analytics.dashboard
-      b=analytics.dashboard
+      a = analytics.dashboard
+      b = analytics.dashboard
 
       expect(a).to_not be_nil
       expect(b).to_not be_nil
@@ -60,8 +60,8 @@ describe Cloudflair::DnsRecord do
     it 'does not cache the response' do
       expect(faraday).to receive(:get).twice.and_call_original
 
-      a=analytics.colos
-      b=analytics.colos
+      a = analytics.colos
+      b = analytics.colos
 
       expect(a).to_not be_nil
       expect(b).to_not be_nil

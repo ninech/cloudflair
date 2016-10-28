@@ -2,7 +2,7 @@ require 'cloudflair/api/zone/railgun'
 
 module Cloudflair
   class Zone
-    def railguns(filter={})
+    def railguns(filter = {})
       raw_railguns = response connection.get("#{path}/railguns", filter)
 
       raw_railguns.map do |raw_railgun|

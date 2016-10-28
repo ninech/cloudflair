@@ -37,7 +37,8 @@ module Cloudflair
       @zone_id = zone_id
     end
 
-    { advanced_ddos: Cloudflair::AdvancedDdos,
+    {
+      advanced_ddos: Cloudflair::AdvancedDdos,
       always_online: Cloudflair::AlwaysOnline,
       browser_cache_ttl: Cloudflair::BrowserCacheTtl,
       browser_check: Cloudflair::BrowserCheck,

@@ -46,7 +46,7 @@ describe Cloudflair::Entity do
     attr_accessor :my_id
     path 'tests/:my_id/sub'
 
-    def initialize(my_id, data=nil)
+    def initialize(my_id, data = nil)
       @my_id = my_id
       self.data = data
     end
