@@ -152,17 +152,16 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on GitHub at [ninech/cloudflair](https://github.com/ninech/cloudflair).
 
-## License
-
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
-
 ### Whishlist
 
 * Full API support
 * Metrics reporting
 * Rate Limit Tracking
-* (Global) Rate Limit Tracking
+* (Global/Distributed) Rate Limit Tracking
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
 ## About
 
