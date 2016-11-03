@@ -60,7 +60,8 @@ describe Cloudflair::Communication do
     end
 
     it 'raises the appropriate exception' do
-      expect { subject.response(response) }.to raise_error Cloudflair::CloudflareError
+      expect { subject.response(response) }.
+        to raise_error(Cloudflair::CloudflareError, '[ "Invalid or missing zone id." (Code: 1003) ]')
     end
   end
 
