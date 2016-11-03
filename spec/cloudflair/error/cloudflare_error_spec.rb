@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Cloudflair::CloudflareError do
   let(:cloudflare_errors) do
     [
-      { code: 1003, message: 'Invalid or missing zone id.' },
+      { 'code' => 1003, 'message' => 'Invalid or missing zone id.' },
     ]
   end
   let(:subject) { Cloudflair::CloudflareError.new cloudflare_errors }
@@ -15,8 +15,8 @@ describe Cloudflair::CloudflareError do
   context 'multiple errors' do
     let(:cloudflare_errors) do
       [
-        { code: 1003, message: 'Invalid or missing zone id.' },
-        { code: 1003, message: 'Invalid or missing zone id.' },
+        { 'code' => 1003, 'message' => 'Invalid or missing zone id.' },
+        { 'code' => 1003, 'message' => 'Invalid or missing zone id.' },
       ]
     end
 

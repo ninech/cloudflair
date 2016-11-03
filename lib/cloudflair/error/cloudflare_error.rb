@@ -12,7 +12,7 @@ module Cloudflair
       if cloudflare_errors.empty?
         '[ "An error happened, but no error message/code was given by CloudFlare." (Code: 0000) ]'
       else
-        strings = cloudflare_errors.map { |cf_e| "\"#{cf_e[:message]}\" (Code: #{cf_e[:code]})" }
+        strings = cloudflare_errors.map { |error| "\"#{error['message']}\" (Code: #{error['code']})" }
         "[ #{strings.join ', '} ]"
       end
     end
