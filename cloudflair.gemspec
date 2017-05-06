@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = %w(lib)
 
-  spec.add_runtime_dependency 'faraday'
+  spec.add_runtime_dependency 'faraday', '>= 0.10.0', '< 0.13'
   spec.add_runtime_dependency 'faraday_middleware'
   spec.add_runtime_dependency 'dry-configurable', '~> 0.1'
   spec.add_runtime_dependency 'faraday-detailed_logger'
