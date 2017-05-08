@@ -13,8 +13,6 @@ module Cloudflair
         @other_klass = other_klass
       end
 
-      attr_accessor :fields_wrapper_class
-
       def patchable_fields(*fields)
         return @patchable_fields if @patchable_fields
 
