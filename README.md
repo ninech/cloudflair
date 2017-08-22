@@ -173,7 +173,6 @@ Bug reports and pull requests are welcome on GitHub at [ninech/cloudflair](https
 * Full API support
 * Metrics reporting
 * Rate Limit Tracking
-* (Global/Distributed) Rate Limit Tracking
 
 ## License
 
