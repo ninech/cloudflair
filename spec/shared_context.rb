@@ -11,11 +11,10 @@ RSpec.shared_context 'connection setup' do
 
   let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
   let(:faraday) do
-    Faraday.new(url: Cloudflair.config.cloudflare.api_base_url, headers: Cloudflair::Connection.headers) do |faraday|
-      faraday.adapter :test, faraday_stubs
-      faraday.request :json
+    Faraday.new(url: Cloudflair.config.cloudflare.api_base_url, headers: Cloudflair::Connection.headers) do |faraday|      
       faraday.response :json, content_type: /\bjson$/
       faraday.request faraday_logger if faraday_logger
+      faraday.adapter :test, faraday_stubs
     end
   end
 

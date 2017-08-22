@@ -23,6 +23,22 @@ Or install it yourself as:
 
     $ gem install cloudflair
 
+## A Note on Faraday
+
+We have decided to not tightly control the version of faraday (anymore). The versions of faraday that are known to work are listed below. If you want to update to a newer version, you're doing it at your own risk. (But if it works, which is usually when all specs pass, please send a PR to update the list below.)
+
+To be on the safe side, we recommend to lock `faraday` to any of the versions listed below. This can be done like this:
+
+```ruby
+gem 'cloudflair'
+gem 'faraday', '>=0.13', '<0.14'
+```
+
+### Faraday Versions known to work
+
+* `gem 'faraday', '>= 0.12', '<= 0.13'`
+* `gem 'faraday', '>= 0.13', '<= 0.14'` (starting with `gem 'cloudflair', '>= 0.2.0'`)
+
 ## Usage
 
 ### Configuration
@@ -157,7 +173,6 @@ Bug reports and pull requests are welcome on GitHub at [ninech/cloudflair](https
 * Full API support
 * Metrics reporting
 * Rate Limit Tracking
-* (Global/Distributed) Rate Limit Tracking
 
 ## License
 

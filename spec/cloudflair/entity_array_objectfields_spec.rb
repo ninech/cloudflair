@@ -66,9 +66,8 @@ describe Cloudflair::Entity do
   let(:faraday_stubs) { Faraday::Adapter::Test::Stubs.new }
   let(:faraday) do
     Faraday.new(url: 'https://api.cloudflare.com/client/v4/', headers: Cloudflair::Connection.headers) do |faraday|
-      faraday.adapter :test, faraday_stubs
-      faraday.request :json
       faraday.response :json, content_type: /\bjson$/
+      faraday.adapter :test, faraday_stubs
     end
   end
   let(:response_json) do
