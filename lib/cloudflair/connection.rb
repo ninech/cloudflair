@@ -20,7 +20,7 @@ module Cloudflair
       elsif !cloudflare_auth_config.user_service_key.nil?
         headers['X-Auth-User-Service-Key'] = cloudflare_auth_config.user_service_key
       else
-        fail CloudflairError, 'Neither email & key nor user_service_key have been defined.'
+        raise CloudflairError, 'Neither email & key nor user_service_key have been defined.'
       end
       headers
     end
