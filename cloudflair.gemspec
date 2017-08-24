@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faraday-detailed_logger'
 
   spec.add_development_dependency 'bundler', '~> 1.12'
-  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rake', '~> 12.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'dotenv', '~> 2.1'
   spec.add_development_dependency 'rubocop', '~> 0.48'
