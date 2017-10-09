@@ -5,8 +5,6 @@
 
 A simple Ruby-wrapper around Cloudflare's v4 API.
 
-![Animation of Homer Simpson using of a rescue flare.](https://media.giphy.com/media/n8A8omwp1mVAA/giphy.gif)
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -180,8 +178,6 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## About
 
-This gem is currently maintained and funded by [nine.ch](https://nine.ch).
+This gem is currently maintained and funded by [nine](https://nine.ch).
 
-[![nine.ch Logo](https://blog.nine.ch/assets/logo.png)](https://nine.ch)
-
-We run your Linux server infrastructure – without interruptions, around the clock.
+[![logo of the company 'nine'](https://logo.apps.at-nine.ch/Dmqied_eSaoBMQwk3vVgn4UIgDo=/trim/500x0/logo_claim.png)](https://www.nine.ch)
