@@ -114,7 +114,7 @@ A good reference on how to use this wrapper are also the Rspecs.
 * `/zones/:zone_id/available_rate_plans`
 * `/zones/:zone_id/dns_records` GET, POST
 * `/zones/:zone_id/dns_records/:record_id` GET, DELETE (PUT not implemented)
-* `/zones/:zone_id/purge_cache` DELETE
+* `/zones/:zone_id/purge_cache` POST
 * `/zones/:zone_id/railguns` GET
 * `/zones/:zone_id/railguns/:railgun_id` GET
 * `/zones/:zone_id/railguns/:railgun_id/diagnose` GET, PATCH
