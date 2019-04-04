@@ -13,7 +13,7 @@ module Cloudflair
     ##
     # @param purge_everything must be set to true
     def everything(purge_everything)
-      resp = connection.delete(path) { |req| req.body = { purge_everything: purge_everything } }
+      resp = connection.post(path) { |req| req.body = { purge_everything: purge_everything } }
       response resp
       self
     end
@@ -23,7 +23,7 @@ module Cloudflair
     def selective(cache_identifier = {})
       return self if cache_identifier.nil? || cache_identifier.empty?
 
-      resp = connection.delete(path) { |req| req.body = cache_identifier }
+      resp = connection.post(path) { |req| req.body = cache_identifier }
       response resp
       self
     end
