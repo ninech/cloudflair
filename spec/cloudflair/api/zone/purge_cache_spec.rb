@@ -13,7 +13,7 @@ describe Cloudflair::PurgeCache do
 
   describe '#everything' do
     before do
-      faraday_stubs.delete(url) do |env|
+      faraday_stubs.post(url) do |env|
         expect(env.body).to eq(purge_everything: true)
 
         [200, { content_type: 'application/json' }, response_json]
@@ -21,13 +21,13 @@ describe Cloudflair::PurgeCache do
     end
 
     it 'deletes all files' do
-      expect(faraday).to receive(:delete).and_call_original
+      expect(faraday).to receive(:post).and_call_original
 
       expect(subject.everything(true)).to be subject
     end
 
     it 'is repeatedly executed' do
-      expect(faraday).to receive(:delete).twice.and_call_original
+      expect(faraday).to receive(:post).twice.and_call_original
 
       expect(subject.everything(true)).to be subject
       expect(subject.everything(true)).to be subject
@@ -46,7 +46,7 @@ describe Cloudflair::PurgeCache do
     let(:selective_list) { { tags: ['hello'], files: ['https://foo.bar/index.html'] } }
 
     before do
-      faraday_stubs.delete(url) do |env|
+      faraday_stubs.post(url) do |env|
         expect(env.body).to eq(selective_list)
 
         [200, { content_type: 'application/json' }, response_json]
@@ -54,13 +54,13 @@ describe Cloudflair::PurgeCache do
     end
 
     it 'deletes all files' do
-      expect(faraday).to receive(:delete).and_call_original
+      expect(faraday).to receive(:post).and_call_original
 
       expect(subject.selective(selective_list)).to be subject
     end
 
     it 'is repeatedly executed' do
-      expect(faraday).to receive(:delete).twice.and_call_original
+      expect(faraday).to receive(:post).twice.and_call_original
 
       expect(subject.selective(selective_list)).to be subject
       expect(subject.selective(selective_list)).to be subject
