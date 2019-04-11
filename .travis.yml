@@ -10,13 +10,12 @@ notifications:
   slack:
     secure: o1rlXNKZgQUIIfpzz//KpClcUS/ea5ECbbTaexQYHn84hqPNlsBdWhSrLg2s6MIJ1zSml4NBKQgwQJCV/6keel06XeNPvGPdQLVmSsBCWS4EJ/CvAAsXadghmSDYdsZlTaXvwa2ZdIaCHrM/SncZYi7I+KIiGsbV0KJgYVTlWGPWuN1kh3od1Ixw6W+TFUKONz8OqVFGo2yCr68zDtxUvrY8G/TNRRtWUINHPSIHL7+7JxzOtDZKOITptcLii8tmqi07HtmU7+78lDMlze8ejhchEDKoycTwVOQDRxjjLbDKZsV33nqG5XYRqW8FQv6zJ2c3eCfd2M2Lm+WkPe/ZBQ25Ok4/wK35T0oPt5lW6LKRNt202nQiI6vqn54489knOUpvA60z2r6taIgI3Os8kCdG8rX95Hob4gpU4zLqPNz26vqGiB0vz4DFSJWpRlYK15YT7SpEEMW2luPcTGHaclRSUFgjo/JkVH6zg+1rcMW4ZbKoxJZoNu+nmk9m1Xaz0r5tfJHBzB5XguRcKakRWkhb0rV4Nvo1as1PFtpxt9tiZsIXNTDNtf+upQeJs1Tevm6z4zBGXOIp//MIJEUyUkJ7Fkb+pyRbDOh30JSQJs0Z1y+/LA0rNkbQ+/jjeoKAepnFvawsXZF6UVWZxsBzAkIWTe+bwghnxX4Gm454RiI=
 deploy:
-  - provider: rubygems
-    api_key:
-      # ninech-bot
-      secure: "P6NLLjWS5x+0cCoYA1Hm1UpAfMykfgkwA03bFeBuvH66fhzFnqrqhW4FU2yRigg/oCm3s5xEnliiGLbY5t6jx70USbWQpbgJ3bdiRecmf4hFJ0DeLa3uRctq+URS+6a0X4PEHoWM7EQFkKRnm/NppInD71RFcipogciYUnTUI68eNm9ESxJHkbf8cll50qq0TXNZ8Bo3bF/39a3IitkxDO9l7srFO0Vw3AXwA4KS3GGd6nSxLqF1OET4wYAmbVNlwPnjituN20lVGYMjAXzJdCe63WILH6oXZoKPeUCQoCEztMk9azJqpZucoDAlc1/9Lb6lqWbNQzw0rA90Rs6EpwWPEnCar/SRvNFHZU0UTOqLppHe2TW420p2jnAzB09M2soo4A0AoWBpVoqOW5ievbDK5EZfHf7mRApZkcFE1gQdH3UOCKWIU8PR39TKGFbKdeFTTMfBSzTB5ow7fj8vBlqMPNJg/5tCnI7oM4J9UMFqG+A6ehHp6IzFoKGMqcP4D2Ef9lJKt7RjzwyW7844qjE1qYiZNIluXLbQNYjPmpet3NHrEqCCleY5ISqCURTUvcWM/JVIw+HIMVrui+KkRdqC3yqMCiBstdemj77ZKsumtJ3MW1FIkvVByxeDYTPhULYP075Pki5Y/XCDTL+WUBzL3x1cVnTBrIUz+qpKhLA="
-    gem: cloudflair
-    on:
-      tags: true
-      repo: ninech/cloudflair
-      condition: "$TRAVIS_RUBY_VERSION == 2.4"
-    skip_cleanup: true
+  provider: rubygems
+  api_key:
+    secure: GisVn77etjRfIwmjsktJVFU182lSuZqbQBsb8jkMoBr0/01fE/tWpZHOMNnKU5JoIaaQAGA0F1w+OXk/eAldvWHbu++074/XcgGerMBV5kxhBOpKEaSu5/cxUfgtGIi2eBBS4xe+GEwtlkI08c6BCiX9pUuUn8LwuUvN7NLNd7nLnZhhnawAoG75aWoMXnudqbIoX/1kGIem8XMuugWwxcr7PsnBy43Mj3yYXmtbO5IW4LC1sDywYc3O/lHmC7hner5yFJSa3kCNN9IMEieRW8/bZAlu3HncfJoORha3tZq37Po/kV8OBuYMoHwxQouCnrh0OW3QNrsmFF+tTy8z132GDjOIaNHwKZyvtXHgfmq4KXdSU5dTlDR5U4Z7jFTbOifc1+UuU1B3RHMHsrqtJgb5ihoXAjtZI8JSjQ7aI+bX9aSt3OpELymuAzoW1mV/Rf4kuNq23jmgDKBEhnR6YdQ864pFGnPL00kPhMUQ+iVX4OFQMZ2/eayYuNGz1LV1WDfFoFSsinZtr/erNnziYJHuzULfFdVg7+ZGMkmLFl7RHiRlphrylW+IN0K+hKEaTDFJ/yVYlLvr/OakR2l4kiPlxfQPXAtmh4MRe1vJdyT3RlGha9qecPddGuzWw3kG8A8bJv9H15YaplHRsu8HryMH5Zt5Tup8cnN37kMrILg=
+  gem: cloudflair
+  on:
+    tags: true
+    repo: ninech/cloudflair
+    condition: "$TRAVIS_RUBY_VERSION == 2.4"
+  skip_cleanup: true
