@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Cloudflair do
   it 'has a version number' do
-    expect(Cloudflair::VERSION).not_to be nil
+    expect(File.read('VERSION')).not_to be nil
   end
 
   it 'is configurable' do
