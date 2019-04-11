@@ -6,7 +6,7 @@ require 'cloudflair/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'cloudflair'
-  spec.version       = Cloudflair::VERSION
+  spec.version       = File.read('VERSION')
   spec.authors       = ['Christian Mäder']
   spec.email         = %w(christian.maeder@nine.ch)
 
