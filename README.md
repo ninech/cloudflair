@@ -112,6 +112,7 @@ A good reference on how to use this wrapper are also the Rspecs.
 * `/zones/:zone_id/available_plans` GET
 * `/zones/:zone_id/available_plans/:plan_id` GET
 * `/zones/:zone_id/available_rate_plans`
+* `/zones/:zone_id/custom_hostnames` GET, POST, PATCH
 * `/zones/:zone_id/dns_records` GET, POST
 * `/zones/:zone_id/dns_records/:record_id` GET, DELETE (PUT not implemented)
 * `/zones/:zone_id/purge_cache` POST
