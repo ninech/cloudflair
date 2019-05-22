@@ -12,6 +12,7 @@ module Cloudflair
     require 'cloudflair/api/zone__dns_records'
     require 'cloudflair/api/zone__available_plans'
     require 'cloudflair/api/zone__railguns'
+    require 'cloudflair/api/zone__custom_hostnames'
 
     attr_reader :zone_id
 
