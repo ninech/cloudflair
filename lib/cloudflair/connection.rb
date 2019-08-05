@@ -12,17 +12,17 @@ module Cloudflair
     end
 
     def self.headers
-      headers = {}
-      cloudflare_auth_config = Cloudflair.config.cloudflare.auth
-      if !(cloudflare_auth_config.key.nil? || cloudflare_auth_config.email.nil?)
-        headers['X-Auth-Key'] = cloudflare_auth_config.key
-        headers['X-Auth-Email'] = cloudflare_auth_config.email
-      elsif !cloudflare_auth_config.user_service_key.nil?
-        headers['X-Auth-User-Service-Key'] = cloudflare_auth_config.user_service_key
-      else
-        raise CloudflairError, 'Neither email & key nor user_service_key have been defined.'
+      {}.tap do |request_headers|
+        cloudflare_auth_config = Cloudflair.config.cloudflare.auth
+        if !(cloudflare_auth_config.key.nil? || cloudflare_auth_config.email.nil?)
+          request_headers['X-Auth-Key']   = cloudflare_auth_config.key
+          request_headers['X-Auth-Email'] = cloudflare_auth_config.email
+        elsif !cloudflare_auth_config.user_service_key.nil?
+          request_headers['Authentication'] = "Bearer #{cloudflare_auth_config.user_service_key}"
+        else
+          raise CloudflairError, 'Neither email & key nor user_service_key have been defined.'
+        end
       end
-      headers
     end
 
     private_class_method def self.new_faraday_from(config)
