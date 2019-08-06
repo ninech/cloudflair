@@ -6,7 +6,6 @@ module Cloudflair
   class Zone
     def dns_records(filter = {})
       raw_records = response connection.get("#{path}/dns_records", filter)
-
       raw_records.map { |raw_record| build_dns_record(raw_record) }
     end
 
@@ -16,7 +15,6 @@ module Cloudflair
 
     def new_dns_record(record_data)
       raw_record = response connection.post("#{path}/dns_records", record_data)
-
       build_dns_record raw_record
     end
 

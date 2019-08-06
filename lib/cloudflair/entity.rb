@@ -18,13 +18,14 @@ module Cloudflair
       def patchable_fields(*fields)
         return @patchable_fields if @patchable_fields
 
-        @patchable_fields = if fields.nil?
-                              []
-                            elsif fields.is_a?(Array)
-                              fields.map(&:to_s)
-                            else
-                              [fields.to_s]
-                            end
+        @patchable_fields =
+          if fields.nil?
+            []
+          elsif fields.is_a?(Array)
+            fields.map(&:to_s)
+          else
+            [fields.to_s]
+          end
       end
 
       def deletable(deletable = false)
@@ -44,11 +45,12 @@ module Cloudflair
       def object_fields(*fields)
         return @object_fields if @object_fields
 
-        @object_fields = if fields.nil? || fields.empty?
-                           []
-                         else
-                           fields.map(&:to_s)
-                         end
+        @object_fields =
+          if fields.nil? || fields.empty?
+            []
+          else
+            fields.map(&:to_s)
+          end
       end
 
       # allowed values:
@@ -71,17 +73,17 @@ module Cloudflair
       end
 
       def turn_all_items_into_a_single_hash(fields_to_class_map)
-        fields_map = {}
-        fields_to_class_map.each do |field_definition|
-          if field_definition.is_a?(Hash)
-            fields_to_class_map[0].each do |field, klass_or_proc|
-              fields_map[field.to_s] = klass_or_proc
+        {}.tap do |fields_map|
+          fields_to_class_map.each do |field_definition|
+            if field_definition.is_a?(Hash)
+              fields_to_class_map[0].each do |field, klass_or_proc|
+                fields_map[field.to_s] = klass_or_proc
+              end
+            else
+              fields_map[field_definition.to_s] = nil
             end
-          else
-            fields_map[field_definition.to_s] = nil
           end
         end
-        fields_map
       end
     end
 
@@ -134,17 +136,15 @@ module Cloudflair
         if patchable_fields.include?(name[0..-2])
           dirty_data[name[0..-2]] = args[0]
           return
-        else
-          super
         end
+
+        super
       end
 
       # allow access to the unmodified data using 'zone.always_string!' or 'zone._name!'
       return data[name[0..2]] if name.end_with?('!') && data.key?(name[0..-2])
-
       return objectify(name) if object_fields.include? name
       return arrayify(name, array_object_fields[name]) if array_object_fields.key?(name)
-
       return dirty_data[name] if dirty_data.key?(name)
       return data[name] if data.is_a?(Hash) && data.key?(name)
 
@@ -155,13 +155,10 @@ module Cloudflair
       name = normalize_accessor name_as_symbol
 
       return true if name_as_symbol == :_raw_data!
-
       return true if name.end_with?('=') && patchable_fields.include?(name[0..-2])
       return true if name.end_with?('!') && data.key?(name[0..-2])
-
       return true if object_fields.include? name
       return true if array_object_fields.key?(name)
-
       return true if dirty_data.key?(name)
       return true if data.is_a?(Hash) && data.key?(name)
 
@@ -235,9 +232,11 @@ module Cloudflair
 
     def replace_path_variables_in(path)
       interpreted_path = path.clone
+
       path.scan(/:([a-zA-Z_][a-zA-Z0-9_]+[!?=]?)/) do |match, *|
-        interpreted_path.gsub! ":#{match}", send(match).to_s
+        interpreted_path = interpreted_path.gsub ":#{match}", send(match).to_s
       end
+
       interpreted_path
     end
 

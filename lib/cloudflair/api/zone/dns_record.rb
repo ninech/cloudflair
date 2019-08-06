@@ -8,6 +8,7 @@ module Cloudflair
 
     attr_reader :zone_id, :record_id
     deletable true
+    patchable_fields :content
     path 'zones/:zone_id/dns_records/:record_id'
 
     def initialize(zone_id, record_id)
