@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cloudflair/api/zone/dns_record'
 
 module Cloudflair

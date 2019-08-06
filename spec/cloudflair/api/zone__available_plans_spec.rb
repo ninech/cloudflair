@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::Zone, 'available_plans things' do
+  subject { Cloudflair.zone zone_identifier }
+
   before do
     allow(Faraday).to receive(:new).and_return faraday
   end
 
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:url) { "/client/v4/zones/#{zone_identifier}/dns_records" }
-  subject { Cloudflair.zone zone_identifier }
 
   describe '#available_plan' do
     it 'returns an AvailablePlan instance' do

@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::Zone do
+  subject { Cloudflair.zone zone_identifier }
+
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/details.json') }
   let(:url) { "/client/v4/zones/#{zone_identifier}" }
-  subject { Cloudflair.zone zone_identifier }
 
   before do
     faraday_stubs.get(url) do |_env|
@@ -58,7 +61,7 @@ describe Cloudflair::Zone do
 
     context '#plan' do
       it 'returns the plan as actual object' do
-        expect(subject.plan).to_not be_a Hash
+        expect(subject.plan).not_to be_a Hash
       end
 
       it 'passes all the values to the plan object' do
@@ -76,7 +79,7 @@ describe Cloudflair::Zone do
 
     context '#plan_pending' do
       it 'returns the pending plan as actual object' do
-        expect(subject.plan_pending).to_not be_a Hash
+        expect(subject.plan_pending).not_to be_a Hash
       end
 
       it 'passes all the values to the plan_pending object' do
@@ -95,7 +98,7 @@ describe Cloudflair::Zone do
 
     context '#owner' do
       it 'returns the `owner` as actual object' do
-        expect(subject.owner).to_not be_a Hash
+        expect(subject.owner).not_to be_a Hash
       end
 
       it 'passes all the value to the `owner` object' do
@@ -145,6 +148,7 @@ describe Cloudflair::Zone do
 
   describe '#delete' do
     let(:response_json) { File.read('spec/cloudflair/fixtures/zone/delete.json') }
+
     before do
       faraday_stubs.delete(url) do |_env|
         [200, { content_type: 'application/json' }, response_json]

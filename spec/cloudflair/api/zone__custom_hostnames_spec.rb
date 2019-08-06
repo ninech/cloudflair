@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::Zone, 'custom_hostname things' do
+  subject(:zone) { Cloudflair.zone zone_identifier }
+
   before do
     allow(Faraday).to receive(:new).and_return faraday
   end
 
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:url) { "/client/v4/zones/#{zone_identifier}/custom_hostnames" }
-  subject(:zone) { Cloudflair.zone zone_identifier }
 
   describe '#custom_hostname' do
     it 'returns a Custom Hostname instance' do
@@ -16,7 +19,7 @@ describe Cloudflair::Zone, 'custom_hostname things' do
   end
 
   describe '#new_custom_hostname=' do
-    let(:new_custom_hostname_data) { { hostname: 'app.example.com', ssl: {method: 'http', type: 'dv', settings: {http2: 'on', min_tls_version: '1.2', tls_1_3: 'on', ciphers: ['ECDHE-RSA-AES128-GCM-SHA256', 'AES128-SHA']}}} }
+    let(:new_custom_hostname_data) { { hostname: 'app.example.com', ssl: { method: 'http', type: 'dv', settings: { http2: 'on', min_tls_version: '1.2', tls_1_3: 'on', ciphers: %w[ECDHE-RSA-AES128-GCM-SHA256 AES128-SHA] } } } }
     let(:response_json) { File.read('spec/cloudflair/fixtures/zone/custom_hostname.json') }
     let(:the_new_custom_hostname) { subject.new_custom_hostname(new_custom_hostname_data) }
 
@@ -33,7 +36,7 @@ describe Cloudflair::Zone, 'custom_hostname things' do
     end
 
     it 'prepopulates the returned CustomHostname instance' do
-      expect(faraday).to_not receive(:get)
+      expect(faraday).not_to receive(:get)
 
       expect(the_new_custom_hostname.id).to eq('0d89c70d-ad9f-4843-b99f-6cc0252067e9')
       expect(the_new_custom_hostname.hostname).to eq('app.example.com')
@@ -42,8 +45,9 @@ describe Cloudflair::Zone, 'custom_hostname things' do
   end
 
   describe '#custom_hostnames' do
-    let(:response_json) { File.read('spec/cloudflair/fixtures/zone/custom_hostnames.json') }
     subject { zone.custom_hostnames }
+
+    let(:response_json) { File.read('spec/cloudflair/fixtures/zone/custom_hostnames.json') }
 
     before do
       faraday_stubs.get(url) do |_env|

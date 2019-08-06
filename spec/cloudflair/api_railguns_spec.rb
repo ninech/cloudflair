@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair, 'railguns' do
@@ -5,7 +7,7 @@ describe Cloudflair, 'railguns' do
 
   describe '#railgun' do
     it 'returns a railgun object' do
-      expect(subject.railgun(railgun_identifier)).to_not be_nil
+      expect(subject.railgun(railgun_identifier)).not_to be_nil
       expect(subject.railgun(railgun_identifier)).to be_a Cloudflair::Railguns
     end
 
@@ -17,8 +19,8 @@ describe Cloudflair, 'railguns' do
       a = subject.railgun railgun_identifier
       b = subject.railgun railgun_identifier
 
-      expect(a).to_not be_nil
-      expect(b).to_not be_nil
+      expect(a).not_to be_nil
+      expect(b).not_to be_nil
 
       expect(a).to be_a Cloudflair::Railguns
       expect(b).to be_a Cloudflair::Railguns
@@ -26,8 +28,8 @@ describe Cloudflair, 'railguns' do
       expect(a.railgun_id).to eq railgun_identifier
       expect(b.railgun_id).to eq railgun_identifier
 
-      expect(a).to_not be b
-      expect(b).to_not be a
+      expect(a).not_to be b
+      expect(b).not_to be a
     end
   end
 
@@ -78,8 +80,8 @@ describe Cloudflair, 'railguns' do
       it 'calls the remote side with the query params' do
         expect(faraday).to receive(:get).and_call_original
 
-        subject.railguns page: 1,
-                         per_page: 20,
+        subject.railguns page:      1,
+                         per_page:  20,
                          direction: 'desc'
       end
     end

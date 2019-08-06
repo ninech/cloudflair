@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::Zone, 'dns_record things' do
+  subject(:zone) { Cloudflair.zone zone_identifier }
+
   before do
     allow(Faraday).to receive(:new).and_return faraday
   end
 
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:url) { "/client/v4/zones/#{zone_identifier}/dns_records" }
-  subject(:zone) { Cloudflair.zone zone_identifier }
 
   describe '#dns_record' do
     it 'returns a DnsRecord instance' do
@@ -33,7 +36,7 @@ describe Cloudflair::Zone, 'dns_record things' do
     end
 
     it 'prepopulates the returned DnsRecord instance' do
-      expect(faraday).to_not receive(:get)
+      expect(faraday).not_to receive(:get)
 
       expect(the_new_dns_record.id).to eq('372e67954025e0ba6aaa6d586b9e0b59')
       expect(the_new_dns_record.ttl).to be 120
@@ -42,8 +45,9 @@ describe Cloudflair::Zone, 'dns_record things' do
   end
 
   describe '#dns_records' do
-    let(:response_json) { File.read('spec/cloudflair/fixtures/zone/dns_records.json') }
     subject { zone.dns_records }
+
+    let(:response_json) { File.read('spec/cloudflair/fixtures/zone/dns_records.json') }
 
     before do
       faraday_stubs.get(url) do |_env|

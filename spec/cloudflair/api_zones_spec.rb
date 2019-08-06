@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair, 'zones' do
@@ -5,7 +7,7 @@ describe Cloudflair, 'zones' do
 
   describe '#zone' do
     it 'returns a zone object' do
-      expect(subject.zone(zone_identifier)).to_not be_nil
+      expect(subject.zone(zone_identifier)).not_to be_nil
       expect(subject.zone(zone_identifier)).to be_a Cloudflair::Zone
     end
 
@@ -17,8 +19,8 @@ describe Cloudflair, 'zones' do
       a = subject.zone zone_identifier
       b = subject.zone zone_identifier
 
-      expect(a).to_not be_nil
-      expect(b).to_not be_nil
+      expect(a).not_to be_nil
+      expect(b).not_to be_nil
 
       expect(a).to be_a Cloudflair::Zone
       expect(b).to be_a Cloudflair::Zone
@@ -26,8 +28,8 @@ describe Cloudflair, 'zones' do
       expect(a.zone_id).to eq zone_identifier
       expect(b.zone_id).to eq zone_identifier
 
-      expect(a).to_not be b
-      expect(b).to_not be a
+      expect(a).not_to be b
+      expect(b).not_to be a
     end
   end
 
@@ -90,6 +92,7 @@ describe Cloudflair, 'zones' do
           subject.zones name: 'Hello'
         end
       end
+
       context 'all combined' do
         let(:url_query) do
           'match=all&name=example.com&order=desc&page=1&per_page=20&status=active'
@@ -98,12 +101,12 @@ describe Cloudflair, 'zones' do
         it 'calls the remote side with the query params' do
           expect(faraday).to receive(:get).and_call_original
 
-          subject.zones name: 'example.com',
-                        status: 'active',
-                        page: 1,
+          subject.zones name:     'example.com',
+                        status:   'active',
+                        page:     1,
                         per_page: 20,
-                        order: 'desc',
-                        match: 'all'
+                        order:    'desc',
+                        match:    'all'
         end
       end
     end

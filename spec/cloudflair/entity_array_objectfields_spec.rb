@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::Entity do
@@ -112,7 +114,7 @@ describe Cloudflair::Entity do
       it 'does not return `an_object_array` as Hashes' do
         expect(subject.an_object_array).to be_a Array
         subject.an_object_array.each do |obj|
-          expect(obj).to_not be_a Hash
+          expect(obj).not_to be_a Hash
         end
       end
 
@@ -128,15 +130,15 @@ describe Cloudflair::Entity do
         expect(faraday).to receive(:get).once.and_call_original
 
         expect(subject._name).to eq 'Beat'
-        expect(subject.an_object_array).to_not be_a Hash
+        expect(subject.an_object_array).not_to be_a Hash
       end
 
       it 'is a new object everytime' do
         a = subject.an_object_array
         b = subject.an_object_array
 
-        expect(a).to_not be b
-        expect(b).to_not be a
+        expect(a).not_to be b
+        expect(b).not_to be a
       end
     end
 
@@ -162,15 +164,15 @@ describe Cloudflair::Entity do
         expect(faraday).to receive(:get).once.and_call_original
 
         expect(subject._name).to eq 'Beat'
-        expect(subject.an_object_array).to_not be_a Hash
+        expect(subject.an_object_array).not_to be_a Hash
       end
 
       it 'is a new object everytime' do
         a = subject.an_object_array
         b = subject.an_object_array
 
-        expect(a).to_not be b
-        expect(b).to_not be a
+        expect(a).not_to be b
+        expect(b).not_to be a
       end
     end
 
@@ -196,15 +198,15 @@ describe Cloudflair::Entity do
         expect(faraday).to receive(:get).once.and_call_original
 
         expect(subject._name).to eq 'Beat'
-        expect(subject.an_object_array).to_not be_a Hash
+        expect(subject.an_object_array).not_to be_a Hash
       end
 
       it 'is a new object everytime' do
         a = subject.an_object_array
         b = subject.an_object_array
 
-        expect(a).to_not be b
-        expect(b).to_not be a
+        expect(a).not_to be b
+        expect(b).not_to be a
       end
     end
   end

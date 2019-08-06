@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::CustomHostname do
+  subject { Cloudflair.zone(zone_identifier).custom_hostname(hostname_identifier) }
+
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:hostname_identifier) { '0d89c70d-ad9f-4843-b99f-6cc0252067e9' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/custom_hostname.json') }
   let(:url) { "/client/v4/zones/#{zone_identifier}/custom_hostnames/#{hostname_identifier}" }
-  subject { Cloudflair.zone(zone_identifier).custom_hostname(hostname_identifier) }
 
   before do
     faraday_stubs.get(url) do |_env|

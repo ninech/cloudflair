@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::AvailableRatePlan do
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/available_rate_plans.json') }
   let(:url) { "/client/v4/zones/#{zone_identifier}/available_rate_plans" }
-  let(:subject) { Cloudflair::AvailableRatePlan.new zone_identifier }
+  let(:subject) { described_class.new zone_identifier }
 
   before do
     faraday_stubs.get(url) do |_env|
@@ -30,7 +32,7 @@ describe Cloudflair::AvailableRatePlan do
     expect(components.length).to be 1
 
     component = components[0]
-    expect(component).to_not be_a Hash
+    expect(component).not_to be_a Hash
     expect(component.name).to eq 'page_rules'
     expect(component.default).to be 5
     expect(component.unit_price).to be 1

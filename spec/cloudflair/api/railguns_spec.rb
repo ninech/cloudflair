@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::Railguns do
+  subject { Cloudflair.railgun railgun_identifier }
+
   let(:railgun_identifier) { 'e928d310693a83094309acf9ead50448' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/railgun/railgun.json') }
   let(:url) { "/client/v4/railguns/#{railgun_identifier}" }
-  subject { Cloudflair.railgun railgun_identifier }
 
   before do
     faraday_stubs.get(url) do |_env|
@@ -57,6 +60,7 @@ describe Cloudflair::Railguns do
 
   describe '#delete' do
     let(:response_json) { File.read('spec/cloudflair/fixtures/railgun/delete.json') }
+
     before do
       faraday_stubs.delete(url) do |_env|
         [200, { content_type: 'application/json' }, response_json]
@@ -77,14 +81,15 @@ describe Cloudflair::Railguns do
   end
 
   describe '#zones' do
+    subject { Cloudflair.railgun(railgun_identifier).zones }
+
     let(:url) { "/client/v4/railguns/#{railgun_identifier}/zones" }
     let(:response_json) { File.read('spec/cloudflair/fixtures/railgun/railgun_zones.json') }
-    subject { Cloudflair.railgun(railgun_identifier).zones }
 
     it 'fetches the associated zones' do
       expect(faraday).to receive(:get).and_call_original
 
-      expect(subject).to_not be_nil
+      expect(subject).not_to be_nil
       expect(subject).to be_an Array
     end
 

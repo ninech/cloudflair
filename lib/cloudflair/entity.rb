@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cloudflair/communication'
 
 module Cloudflair
@@ -16,13 +18,13 @@ module Cloudflair
       def patchable_fields(*fields)
         return @patchable_fields if @patchable_fields
 
-        if fields.nil?
-          @patchable_fields = []
-        elsif fields.is_a?(Array)
-          @patchable_fields = fields.map(&:to_s)
-        else
-          @patchable_fields = [fields.to_s]
-        end
+        @patchable_fields = if fields.nil?
+                              []
+                            elsif fields.is_a?(Array)
+                              fields.map(&:to_s)
+                            else
+                              [fields.to_s]
+                            end
       end
 
       def deletable(deletable = false)
@@ -34,7 +36,7 @@ module Cloudflair
       def path(path = nil)
         return @path if @path
 
-        fail ArgumentError, 'path is not defined' if path.nil?
+        raise ArgumentError, 'path is not defined' if path.nil?
 
         @path = path
       end
@@ -42,11 +44,11 @@ module Cloudflair
       def object_fields(*fields)
         return @object_fields if @object_fields
 
-        if fields.nil? || fields.empty?
-          @object_fields = []
-        else
-          @object_fields = fields.map(&:to_s)
-        end
+        @object_fields = if fields.nil? || fields.empty?
+                           []
+                         else
+                           fields.map(&:to_s)
+                         end
       end
 
       # allowed values:
@@ -102,7 +104,7 @@ module Cloudflair
     end
 
     def delete
-      fail Cloudflair::CloudflairError, "Can't delete unless deletable=true" unless deletable
+      raise Cloudflair::CloudflairError, "Can't delete unless deletable=true" unless deletable
       return self if @deleted
 
       @data = response connection.delete path
@@ -126,7 +128,7 @@ module Cloudflair
     def method_missing(name_as_symbol, *args, &block)
       name = normalize_accessor name_as_symbol
 
-      return data if :_raw_data! == name_as_symbol
+      return data if name_as_symbol == :_raw_data!
 
       if name.end_with?('=')
         if patchable_fields.include?(name[0..-2])
@@ -138,15 +140,13 @@ module Cloudflair
       end
 
       # allow access to the unmodified data using 'zone.always_string!' or 'zone._name!'
-      if name.end_with?('!') && data.keys.include?(name[0..-2])
-        return data[name[0..2]]
-      end
+      return data[name[0..2]] if name.end_with?('!') && data.key?(name[0..-2])
 
       return objectify(name) if object_fields.include? name
-      return arrayify(name, array_object_fields[name]) if array_object_fields.keys.include? name
+      return arrayify(name, array_object_fields[name]) if array_object_fields.key?(name)
 
-      return dirty_data[name] if dirty_data.keys.include? name
-      return data[name] if data.is_a?(Hash) && data.keys.include?(name)
+      return dirty_data[name] if dirty_data.key?(name)
+      return data[name] if data.is_a?(Hash) && data.key?(name)
 
       super
     end
@@ -154,16 +154,16 @@ module Cloudflair
     def respond_to_missing?(name_as_symbol, *args)
       name = normalize_accessor name_as_symbol
 
-      return true if :_raw_data! == name_as_symbol
+      return true if name_as_symbol == :_raw_data!
 
       return true if name.end_with?('=') && patchable_fields.include?(name[0..-2])
-      return true if name.end_with?('!') && data.keys.include?(name[0..-2])
+      return true if name.end_with?('!') && data.key?(name[0..-2])
 
       return true if object_fields.include? name
-      return true if array_object_fields.keys.include? name
+      return true if array_object_fields.key?(name)
 
-      return true if dirty_data.keys.include? name
-      return true if data.is_a?(Hash) && data.keys.include?(name)
+      return true if dirty_data.key?(name)
+      return true if data.is_a?(Hash) && data.key?(name)
 
       super
     end

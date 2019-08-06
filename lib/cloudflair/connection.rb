@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faraday'
 require 'faraday_middleware'
 require 'faraday/detailed_logger'
@@ -7,7 +9,6 @@ module Cloudflair
   class Connection
     def self.new
       config = Cloudflair.config
-
       new_faraday_from config
     end
 

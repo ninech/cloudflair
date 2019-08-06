@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cloudflair/api/zone'
 require 'cloudflair/api/railguns'
 require 'cloudflair/communication'
