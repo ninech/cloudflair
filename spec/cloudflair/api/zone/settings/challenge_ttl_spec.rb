@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::ChallengeTtl do
@@ -8,7 +10,7 @@ describe Cloudflair::ChallengeTtl do
 
   let(:setting_identifier) { 'challenge_ttl' }
   let(:value) { 1800 }
-  let(:new_value) { 605800 }
+  let(:new_value) { 605_800 }
 
   before do
     faraday_stubs.get(url) do |_env|

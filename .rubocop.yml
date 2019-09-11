@@ -1,0 +1,38 @@
+require:
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+  TargetRubyVersion: 2.6.1
+
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+
+Metrics/BlockLength:
+  Exclude:
+    - Guardfile
+    - 'spec/**/*spec.rb'
+
+Metrics/LineLength:
+  Exclude:
+    - Guardfile
+  Max: 110
+
+Rails:
+  Enabled: true
+
+Rails/HttpPositionalArguments:
+  Exclude:
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false

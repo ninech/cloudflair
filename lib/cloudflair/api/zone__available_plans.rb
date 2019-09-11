@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cloudflair/api/zone/available_plan'
 
 module Cloudflair

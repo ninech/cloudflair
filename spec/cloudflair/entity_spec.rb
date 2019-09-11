@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::Entity do
@@ -51,21 +53,21 @@ describe Cloudflair::Entity do
   end
   let(:raw_data) do
     {
-      'name' => 'Beat',
-      'boolean' => true,
-      'number' => 1,
-      'float_number' => 1.2,
-      'date' => '2014-05-28T18:46:18.764425Z',
-      'an_object' => {
-        'key' => 'value',
-        'second' => 2,
+      'name'            => 'Beat',
+      'boolean'         => true,
+      'number'          => 1,
+      'float_number'    => 1.2,
+      'date'            => '2014-05-28T18:46:18.764425Z',
+      'an_object'       => {
+        'key'    => 'value',
+        'second' => 2
       },
-      'an_array' => [],
+      'an_array'        => [],
       'an_object_array' => [
         { 'name' => 'obj1' },
         { 'name' => 'obj2' },
-        { 'name' => 'obj3' },
-      ],
+        { 'name' => 'obj3' }
+      ]
     }
   end
   let(:response_json) do
@@ -179,13 +181,13 @@ describe Cloudflair::Entity do
     end
 
     it 'does not send PATCH to the server when nothing changed' do
-      expect(faraday).to_not receive(:patch)
+      expect(faraday).not_to receive(:patch)
 
       expect(subject.patch).to be subject
     end
 
     it 'does not send PATCH to the server when nothing valid changed' do
-      expect(faraday).to_not receive(:patch)
+      expect(faraday).not_to receive(:patch)
 
       expect(subject.update(illegal: 'It Is')).to be subject
     end
@@ -201,7 +203,7 @@ describe Cloudflair::Entity do
     end
 
     it 'does not send PATCH' do
-      expect(faraday).to_not receive(:patch)
+      expect(faraday).not_to receive(:patch)
 
       expect(subject.update(name: 'Fritz')).to be subject
     end
@@ -215,6 +217,7 @@ describe Cloudflair::Entity do
     let(:response_json) do
       '{"success":true,"errors":[],"messages":[],"result":{"id":42}}'
     end
+
     before do
       faraday_stubs.delete(url) do |_env|
         [200, { content_type: 'application/json' }, response_json]
@@ -242,6 +245,7 @@ describe Cloudflair::Entity do
 
     context 'non-deletable entity' do
       let(:subject) { TestEntity2.new }
+
       it 'raises an error' do
         expect { subject.delete }.to raise_error Cloudflair::CloudflairError
       end
@@ -266,11 +270,11 @@ describe Cloudflair::Entity do
 
   describe 'objectification of fields' do
     it 'does not return `an_object` as Hash' do
-      expect(subject.an_object).to_not be_a Hash
+      expect(subject.an_object).not_to be_a Hash
     end
 
     it 'returns the correct values' do
-      expect(subject.an_object).to_not be_a Hash
+      expect(subject.an_object).not_to be_a Hash
       expect(subject.an_object.key).to eq 'value'
       expect(subject.an_object.second).to be 2
     end
@@ -279,15 +283,15 @@ describe Cloudflair::Entity do
       expect(faraday).to receive(:get).once.and_call_original
 
       expect(subject._name).to eq 'Beat'
-      expect(subject.an_object).to_not be_a Hash
+      expect(subject.an_object).not_to be_a Hash
     end
 
     it 'is a new object everytime' do
       a = subject.an_object
       b = subject.an_object
 
-      expect(a).to_not be b
-      expect(b).to_not be a
+      expect(a).not_to be b
+      expect(b).not_to be a
     end
   end
 end

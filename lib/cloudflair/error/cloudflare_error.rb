@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cloudflair
   class CloudflareError < StandardError
     attr_reader :cloudflare_errors

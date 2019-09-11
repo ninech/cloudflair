@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::SecurityHeader do
@@ -10,12 +12,12 @@ describe Cloudflair::SecurityHeader do
   let(:value) do
     {
       'strict_transport_security' =>
-        {
-          'enabled' => true,
-          'max_age' => 86400,
-          'include_subdomains' => true,
-          'nosniff' => true,
-        },
+                                     {
+                                       'enabled'            => true,
+                                       'max_age'            => 86_400,
+                                       'include_subdomains' => true,
+                                       'nosniff'            => true
+                                     }
     }
   end
   let(:new_value) { { 'strict_transport_security' => { 'enabled' => false } } }

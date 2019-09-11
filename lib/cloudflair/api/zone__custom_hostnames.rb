@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cloudflair/api/zone/custom_hostname'
 
 module Cloudflair

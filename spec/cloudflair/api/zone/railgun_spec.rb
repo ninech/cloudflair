@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::Railgun do
+  subject(:railgun) { Cloudflair.zone(zone_identifier).railgun(railgun_identifier) }
+
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:railgun_identifier) { 'e928d310693a83094309acf9ead50448' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/railgun.json') }
   let(:url) { "/client/v4/zones/#{zone_identifier}/railguns/#{railgun_identifier}" }
-  subject(:railgun) { Cloudflair.zone(zone_identifier).railgun(railgun_identifier) }
 
   before do
     faraday_stubs.get(url) do |_env|
@@ -40,8 +43,8 @@ describe Cloudflair::Railgun do
     it 'calls the diagnose endpoint' do
       expect(faraday).to receive(:get).and_call_original
 
-      expect(railgun).to_not be_nil
-      expect(railgun).to_not be_a Hash
+      expect(railgun).not_to be_nil
+      expect(railgun).not_to be_a Hash
     end
 
     it 'returns the right values' do

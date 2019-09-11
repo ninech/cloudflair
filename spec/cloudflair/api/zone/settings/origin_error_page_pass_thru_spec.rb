@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::OriginErrorPagePassThru do
@@ -31,7 +33,7 @@ describe Cloudflair::OriginErrorPagePassThru do
   # non-standard
   describe 'put values' do
     it 'does not save the value' do
-      expect(faraday).to_not receive(:patch)
+      expect(faraday).not_to receive(:patch)
 
       expect { subject.value = new_value }.to raise_error NoMethodError
 

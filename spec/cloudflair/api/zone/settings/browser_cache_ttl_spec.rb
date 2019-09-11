@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::BrowserCacheTtl do
@@ -7,7 +9,7 @@ describe Cloudflair::BrowserCacheTtl do
   let(:subject) { Cloudflair.zone(zone_identifier).settings.public_send setting_identifier }
 
   let(:setting_identifier) { 'browser_cache_ttl' }
-  let(:value) { 14400 }
+  let(:value) { 14_400 }
   let(:new_value) { 7200 }
 
   before do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'cloudflair/api'
 require 'cloudflair/version'
 require 'dry-configurable'

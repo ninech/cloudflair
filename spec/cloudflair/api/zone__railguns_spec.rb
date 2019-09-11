@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Cloudflair::Zone, 'railguns things' do
+  subject(:zone) { Cloudflair.zone zone_identifier }
+
   before do
     allow(Faraday).to receive(:new).and_return faraday
     faraday_stubs.get(url) do |_env|
@@ -11,7 +15,6 @@ describe Cloudflair::Zone, 'railguns things' do
   let(:zone_identifier) { '023e105f4ecef8ad9ca31a8372d0c353' }
   let(:response_json) { File.read('spec/cloudflair/fixtures/zone/railguns.json') }
   let(:url) { "/client/v4/zones/#{zone_identifier}/railguns" }
-  subject(:zone) { Cloudflair.zone zone_identifier }
 
   describe '#railgun' do
     it 'returns a DnsRecord instance' do

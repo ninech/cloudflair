@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'json'
 
@@ -7,6 +9,7 @@ describe Cloudflair::Communication do
   let(:response) { double('response', body: response_body, status: 200) }
 
   let(:subject) { Victim.new }
+
   class Victim
     include Cloudflair::Communication
   end
@@ -31,8 +34,8 @@ describe Cloudflair::Communication do
       '{"name":"Beat","boolean":true,"number":1,"float_number":1.2,"date":"2014-05-28T18:46:18.764425Z"}'
     end
     let(:response_body) do
-      JSON.
-        parse(
+      JSON
+        .parse(
           '{"success":true,"errors":[],"messages":[],"result":' +
             result_json +
             ',"result_info":{"page":1,"per_page":20,"count":1,"total_count":2000}}'
@@ -60,8 +63,8 @@ describe Cloudflair::Communication do
     end
 
     it 'raises the appropriate exception' do
-      expect { subject.response(response) }.
-        to raise_error(Cloudflair::CloudflareError, '[ "Invalid or missing zone id." (Code: 1003) ]')
+      expect { subject.response(response) }
+        .to raise_error(Cloudflair::CloudflareError, '[ "Invalid or missing zone id." (Code: 1003) ]')
     end
   end
 
