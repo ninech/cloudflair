@@ -42,5 +42,13 @@ module Cloudflair
     def analytics
       Cloudflair::Analytics.new zone_id
     end
+
+    def name_servers
+      data.fetch('name_servers', [])
+    end
+
+    def name
+      data.fetch('name', '')
+    end
   end
 end
