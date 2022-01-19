@@ -27,7 +27,7 @@ module Cloudflair
   extend Dry::Configurable
 
   setting :cloudflare do
-    setting :api_base_url, 'https://api.cloudflare.com/client/v4/'
+    setting :api_base_url, default: "https://api.cloudflare.com/client/v4/"
     setting :auth do
       setting :key
       setting :email
@@ -36,7 +36,7 @@ module Cloudflair
   end
 
   setting :faraday do
-    setting :adapter, :net_http
+    setting :adapter, default: :net_http
     setting :logger
   end
 end
